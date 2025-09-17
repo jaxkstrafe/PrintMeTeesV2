@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom T-Shirt Designer</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="text-editor.css">
+</head>
+<body>
+    <!-- Product Selection Page -->
+    <div id="productSelection" class="page active">
+        <div class="container">
+            <h1>Choose Your Product</h1>
+            <div class="product-grid">
+                <div class="product-card" data-product="tshirt">
+                    <img src="/Products/tshirtfront.png" alt="T-Shirt">
+                    <h3>Classic T-Shirt</h3>
+                    <p>$19.99</p>
+                </div>
+                <div class="product-card" data-product="longsleeve">
+                    <img src="/Products/longSleeveTshirtFront.png" alt="Long Sleeve">
+                    <h3>Long Sleeve Tee</h3>
+                    <p>$24.99</p>
+                </div>
+                <div class="product-card" data-product="polo">
+                    <img src="https://via.placeholder.com/200x200/f5f5f5/999999?text=Polo" alt="Polo">
+                    <h3>Performance Polo</h3>
+                    <p>$34.99</p>
+                </div>
+                <div class="product-card" data-product="hoodie">
+                    <img src="https://via.placeholder.com/200x200/f5f5f5/999999?text=Hoodie" alt="Hoodie">
+                    <h3>Pullover Hoodie</h3>
+                    <p>$39.99</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Designer Page -->
+    <div id="designerPage" class="page">
+        <div class="designer-container">
+            <!-- Left Sidebar -->
+            <div class="sidebar">
+                <div class="sidebar-header">
+                    <button id="backToProducts" class="back-btn">← Back to Products</button>
+                </div>
+                
+                <div class="tool-section">
+                    <h3>What's next for you?</h3>
+                    <div class="tool-grid">
+                        <button class="tool-btn" data-tool="upload">
+                            <div class="tool-icon">📁</div>
+                            <span>Upload</span>
+                        </button>
+                        <button class="tool-btn" data-tool="text">
+                            <div class="tool-icon">T</div>
+                            <span>Add Text</span>
+                        </button>
+                        <button class="tool-btn" data-tool="art">
+                            <div class="tool-icon">🎨</div>
+                            <span>Add Art</span>
+                        </button>
+                        <button class="tool-btn" data-tool="colors">
+                            <div class="tool-icon">💧</div>
+                            <span>Product Colors</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Upload Panel -->
+                <div id="uploadPanel" class="panel">
+                    <h4>Upload Your Design</h4>
+                    <div class="upload-area">
+                        <input type="file" id="logoUpload" accept="image/*" style="display: none;">
+                        <label for="logoUpload" class="upload-label">
+                            <div class="upload-icon">☁️</div>
+                            <p>Drag & drop a file anywhere to upload.</p>
+                            <button type="button" class="upload-btn">Choose File</button>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Text Panel -->
+                <div id="textPanel" class="panel">
+                    <!-- Text Editor will populate this -->
+                </div>
+
+                <!-- Colors Panel -->
+                <div id="colorsPanel" class="panel">
+                    <h4>Product Colors</h4>
+                    <div class="color-grid">
+                        <div class="color-option" data-color="#f4c2c2" style="background-color: #f4c2c2;"></div>
+                        <div class="color-option" data-color="#ffffff" style="background-color: #ffffff;"></div>
+                        <div class="color-option" data-color="#000000" style="background-color: #000000;"></div>
+                        <div class="color-option" data-color="#3b82f6" style="background-color: #3b82f6;"></div>
+                        <div class="color-option" data-color="#ef4444" style="background-color: #ef4444;"></div>
+                        <div class="color-option" data-color="#10b981" style="background-color: #10b981;"></div>
+                        <div class="color-option" data-color="#f59e0b" style="background-color: #f59e0b;"></div>
+                        <div class="color-option" data-color="#8b5cf6" style="background-color: #8b5cf6;"></div>
+                    </div>
+                </div>
+            </div>
+
+                            <!-- Main Design Area -->
+            <div class="design-area">
+                <!-- Product Preview -->
+                <div class="product-preview">
+                    <div class="tshirt-container">
+                        <div id="tshirtCanvas" class="tshirt-canvas">
+                            <div id="tshirtColorLayer" class="tshirt-color-layer"></div>
+                            <!-- Draggable elements will be added here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel -->
+            <div class="right-panel">
+                <!-- View Tabs -->
+                <div class="view-tabs">
+                    <button class="view-tab active" data-view="front">Front</button>
+                    <button class="view-tab" data-view="side">Side</button>
+                    <button class="view-tab" data-view="back">Back</button>
+                </div>
+
+                <!-- Product Info -->
+                <div class="product-info">
+                    <h3 id="selectedProductName">Classic T-Shirt</h3>
+                    <p id="selectedProductPrice">$19.99</p>
+                    <p id="selectedProductColor">Body Blush Heather</p>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button id="saveDesign" class="save-btn">Save | Share</button>
+                    <button id="getPrice" class="price-btn">Get Price</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="text-editor.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

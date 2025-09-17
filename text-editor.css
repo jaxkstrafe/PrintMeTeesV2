@@ -1,0 +1,321 @@
+/* text-editor.css - Enhanced Text Editor Styles */
+
+.text-editor-content {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.text-input-section {
+    margin-bottom: 1rem;
+}
+
+.text-input-section textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    resize: vertical;
+    font-family: inherit;
+    font-size: 0.9rem;
+}
+
+.text-controls-grid {
+    display: grid;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.control-group label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #374151;
+}
+
+.control-group select,
+.control-group input[type="color"] {
+    padding: 0.25rem;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    font-size: 0.8rem;
+}
+
+.control-group select {
+    background: white;
+}
+
+.size-control,
+.rotation-control,
+.curve-control {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.size-control input[type="range"],
+.rotation-control input[type="range"],
+.curve-control input[type="range"] {
+    flex: 1;
+    height: 6px;
+    background: #e5e7eb;
+    border-radius: 3px;
+    outline: none;
+    -webkit-appearance: none;
+}
+
+.size-control input[type="range"]::-webkit-slider-thumb,
+.rotation-control input[type="range"]::-webkit-slider-thumb,
+.curve-control input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: #3b82f6;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.size-control input[type="range"]::-moz-range-thumb,
+.rotation-control input[type="range"]::-moz-range-thumb,
+.curve-control input[type="range"]::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: #3b82f6;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+}
+
+.size-control span,
+.rotation-control span,
+.curve-control span {
+    font-size: 0.75rem;
+    color: #6b7280;
+    min-width: 35px;
+    text-align: right;
+}
+
+.outline-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.outline-controls input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+}
+
+.outline-controls input[type="color"] {
+    width: 30px;
+    height: 24px;
+    padding: 0;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+}
+
+.outline-controls input[type="range"] {
+    flex: 1;
+    height: 4px;
+    background: #e5e7eb;
+    border-radius: 2px;
+    outline: none;
+    -webkit-appearance: none;
+}
+
+.outline-controls input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    background: #3b82f6;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.effect-buttons {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.effect-btn {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #d1d5db;
+    background: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.effect-btn:hover {
+    background: #f3f4f6;
+    border-color: #9ca3af;
+}
+
+.effect-btn.active {
+    background: #3b82f6;
+    color: white;
+    border-color: #3b82f6;
+}
+
+.effect-btn:nth-child(1) {
+    font-weight: 900; /* Bold */
+}
+
+.effect-btn:nth-child(2) {
+    font-style: italic; /* Italic */
+}
+
+.effect-btn:nth-child(3) {
+    text-decoration: underline; /* Underline */
+}
+
+.text-editor-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e5e7eb;
+}
+
+.primary-btn {
+    background: #D97ED2;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.primary-btn:hover {
+    background: #c963c4;
+}
+
+.secondary-btn {
+    background: #6b7280;
+    color: white;
+    border: none;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: background 0.2s;
+}
+
+.secondary-btn:hover {
+    background: #4b5563;
+}
+
+/* Text element states */
+.draggable.text-element {
+    font-weight: normal;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.draggable.text-element:hover {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+.draggable.text-element.editing {
+    border-color: #f59e0b !important;
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.3) !important;
+    background: rgba(245, 158, 11, 0.05);
+}
+
+.draggable.text-element.selected {
+    border-color: #ef4444;
+    box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .text-controls-grid {
+        gap: 0.5rem;
+    }
+    
+    .control-group label {
+        font-size: 0.75rem;
+    }
+    
+    .effect-buttons {
+        justify-content: center;
+    }
+    
+    .text-editor-actions {
+        gap: 0.4rem;
+    }
+    
+    .outline-controls {
+        flex-wrap: wrap;
+    }
+}
+
+/* Custom scrollbar for text editor */
+.text-editor-content::-webkit-scrollbar {
+    width: 4px;
+}
+
+.text-editor-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.text-editor-content::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+.text-editor-content::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* Animation for mode switching */
+.text-editor-actions button {
+    opacity: 0;
+    transform: translateY(-5px);
+    animation: fadeInUp 0.2s ease forwards;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.draggable {
+    /* Optimize for frequent position changes */
+    will-change: auto;
+    
+    /* Ensure smooth rendering */
+    backface-visibility: hidden;
+    
+    /* Prevent text selection during drag */
+    user-select: none;
+    -webkit-user-select: none;
+    
+    /* Smooth cursor transitions */
+    transition: cursor 0.1s ease;
+}
+
+.draggable:hover {
+    cursor: grab;
+}
+
+.draggable.selected {
+    z-index: 15; /* Bring selected elements to front */
+}
