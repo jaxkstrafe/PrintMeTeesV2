@@ -403,6 +403,7 @@ class TShirtDesigner {
         this.updateProductInfo(productType);
         this.updateProductCanvas(productType);
         this.updateColorOptions(productType);
+        this.updateViewTabs(); // ensure right-side thumbnails match selected product
         this.showPage('designerPage');
     }
 
@@ -471,6 +472,9 @@ class TShirtDesigner {
 
         // Add customization boundary on top
         this.addCustomizationBoundary();
+
+        // Refresh view tab thumbnails
+        this.updateViewTabs();
     }
 
     addCustomizationBoundary() {
@@ -565,6 +569,9 @@ class TShirtDesigner {
 
         // Update the template and mask for the new view
         this.updateProductCanvas(this.currentProduct);
+
+        // Keep thumbnails/labels in sync
+        this.updateViewTabs();
     }
 
     changeProductColor(colorData) {
@@ -1200,7 +1207,6 @@ class TShirtDesigner {
         ctx.restore();
     }
 
-
     getPrice() {
         const raw = this.getProductInfo(this.currentProduct).price;
         const basePrice = parseFloat(String(raw).replace(/[^0-9.]/g, '')) || 0;
@@ -1418,6 +1424,48 @@ class TShirtDesigner {
             alert('Error loading saved design.');
         }
     }
+
+    // ===== New: keep right-side view buttons showing thumbnails + labels =====
+    updateViewTabs() {
+        const tabs = document.querySelectorAll('.view-tab');
+        if (!tabs.length || !this.currentProduct) return;
+
+        tabs.forEach(tab => {
+            const view = tab.dataset.view; // "front", "side", "back"
+            const labelText =
+                view === 'side' ? 'Sleeve' :
+                view === 'back' ? 'Back'   : 'Front';
+
+            // Ensure there is an <img> thumb + <span> label inside the button
+            let img = tab.querySelector('img.view-thumb');
+            let span = tab.querySelector('span');
+
+            if (!img) {
+                img = document.createElement('img');
+                img.className = 'view-thumb';
+                tab.prepend(img);
+            }
+            if (!span) {
+                span = document.createElement('span');
+                tab.appendChild(span);
+            }
+
+            // Set label
+            span.textContent = labelText;
+
+            // Set image source for this product/view
+            const src = this.productImages?.[this.currentProduct]?.[view];
+            if (src) {
+                img.src = src;
+                img.alt = `${labelText} preview`;
+                img.style.visibility = 'visible';
+            } else {
+                img.removeAttribute('src');
+                img.alt = '';
+                img.style.visibility = 'hidden';
+            }
+        });
+    }
 }
 
 // Shopify integration helpers
@@ -1521,4 +1569,3 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }, 150);
 });
-

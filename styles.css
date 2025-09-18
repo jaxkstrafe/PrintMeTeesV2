@@ -87,7 +87,7 @@ body {
 /* Designer Page */
 .designer-container {
     display: grid;
-    grid-template-columns: 550px 1fr 250px;
+    grid-template-columns: 600px 1fr 250px;
     height: 100vh;
     background: #f8fafc;
 }
@@ -409,7 +409,7 @@ body {
 }
 
 .save-btn {
-    background: #f59e0b;
+    background: #c963c4;
     color: white;
     border: none;
     padding: 0.75rem;
@@ -558,4 +558,58 @@ body {
     -webkit-user-select: none;
     -moz-user-select: none;
     user-select: none;
+}
+
+/* View tab thumbnails */
+.view-tabs { gap: 0.5rem; }
+
+.view-tab {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: flex-start;
+  text-align: left;
+}
+
+/* Little shirt preview */
+.view-tab .view-thumb {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 2px;
+}
+
+/* Optional: closer to your screenshot styling */
+.view-tab.active {
+  border: 2px solid #ec4899;          /* pink outline */
+  box-shadow: 0 0 0 2px rgba(236,72,153,.2);
+}
+
+/* Stack the view buttons vertically */
+.view-tabs {
+    display: flex;
+    flex-direction: column;   /* <— key change */
+    gap: 0.5rem;
+}
+
+/* Make each button fill the column and look tidy */
+.view-tab {
+    display: flex;            /* so image + label align nicely */
+    align-items: center;
+    gap: 2.5rem;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    width: 100%;
+    flex: 0 0 auto;           /* don't try to share a row */
+}
+
+/* (optional) small thumbnail sizing if you're showing images in tabs */
+.view-tab .view-thumb {
+    width: 55px;
+    height: 55px;
+    object-fit: contain;
+    border-radius: 6px;
 }
