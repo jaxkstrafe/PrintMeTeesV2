@@ -1,321 +1,284 @@
-/* text-editor.css - Enhanced Text Editor Styles */
+/* text-editor.css — Compact, Condensed Text Editor */
 
-.text-editor-content {
-    max-height: 500px;
-    overflow-y: auto;
+/* =========================
+   Vars / scope
+========================= */
+#textPanel {
+  --te-row-h: 44px;
+  --te-gap: .5rem;
+  --te-sep: #eef2f7;
+  --te-muted: #6b7280;
+  --te-ink: #111827;
+  --te-bg: #ffffff;
+  --te-chip-bg: #f9fafb;
+  --te-border: #e5e7eb;
 }
 
-.text-input-section {
-    margin-bottom: 1rem;
+/* =========================
+   Header
+========================= */
+#textPanel h4{
+  margin:0 0 .5rem;
+  padding:.5rem .75rem;
+  text-align:center;
+  font-weight:600;
+  color:#374151;
+  background:linear-gradient(180deg,#fafafa,#f3f4f6);
+  border:1px solid var(--te-border);
+  border-radius:8px;
 }
 
-.text-input-section textarea {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #d1d5db;
-    border-radius: 6px;
-    resize: vertical;
-    font-family: inherit;
-    font-size: 0.9rem;
+/* =========================
+   Editor container
+========================= */
+#textPanel .text-editor-content{
+  background:var(--te-bg);
+  border:1px solid var(--te-border);
+  border-radius:10px;
+  padding:.25rem;
+  max-height:520px;      /* scrolls if longer */
+  overflow-y:auto;
 }
 
-.text-controls-grid {
-    display: grid;
-    gap: 0.75rem;
-    margin-bottom: 1rem;
+/* Custom scrollbar (WebKit) */
+#textPanel .text-editor-content::-webkit-scrollbar{ width:4px; }
+#textPanel .text-editor-content::-webkit-scrollbar-track{ background:#f1f1f1; border-radius:4px; }
+#textPanel .text-editor-content::-webkit-scrollbar-thumb{ background:#c1c1c1; border-radius:4px; }
+#textPanel .text-editor-content::-webkit-scrollbar-thumb:hover{ background:#a8a8a8; }
+
+/* =========================
+   Text input (top field)
+========================= */
+#textPanel .text-input-section{ margin:.25rem .25rem .5rem; }
+#textPanel .text-input-section textarea{
+  width:100%;
+  height:40px;
+  resize:none;
+  padding:.5rem .75rem;
+  border:1px solid #d1d5db;
+  border-radius:8px;
+  font-family:inherit;
+  font-size:.9rem;
 }
 
-.control-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
+/* =========================
+   Control rows
+========================= */
+#textPanel .text-controls-grid{ display:block; margin:0 .25rem; }
+
+#textPanel .control-group{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:.75rem;
+  padding:.5rem .5rem;
+  min-height:var(--te-row-h);
+  border-top:1px solid var(--te-sep);
+}
+#textPanel .control-group:first-of-type{ border-top:0; }
+
+#textPanel .control-group label{
+  margin:0;
+  font-size:.9rem;
+  font-weight:600;
+  color:#374151;
+  flex:0 0 120px;                 /* label column */
+  text-align:left;
 }
 
-.control-group label {
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: #374151;
+/* Right-side control containers */
+#textPanel .control-group select,
+#textPanel .control-group input[type="color"],
+#textPanel .size-control,
+#textPanel .rotation-control,
+#textPanel .curve-control,
+#textPanel .outline-controls,
+#textPanel .effect-buttons{
+  margin-left:auto;
 }
 
-.control-group select,
-.control-group input[type="color"] {
-    padding: 0.25rem;
-    border: 1px solid #d1d5db;
-    border-radius: 4px;
-    font-size: 0.8rem;
+/* =========================
+   Sliders + value chips
+========================= */
+#textPanel .size-control,
+#textPanel .rotation-control,
+#textPanel .curve-control{
+  display:flex;
+  align-items:center;
+  gap:.5rem;
+  min-width:55%;
+  max-width:70%;
 }
 
-.control-group select {
-    background: white;
+#textPanel .size-control input[type="range"],
+#textPanel .rotation-control input[type="range"],
+#textPanel .curve-control input[type="range"]{
+  flex:1;
+  height:6px;
+  background:#e5e7eb;
+  border-radius:3px;
+  outline:none;
+  -webkit-appearance:none;
+}
+#textPanel .size-control input[type="range"]::-webkit-slider-thumb,
+#textPanel .rotation-control input[type="range"]::-webkit-slider-thumb,
+#textPanel .curve-control input[type="range"]::-webkit-slider-thumb{
+  appearance:none; width:16px; height:16px; background:#3b82f6; border-radius:50%; cursor:pointer;
+}
+#textPanel .size-control input[type="range"]::-moz-range-thumb,
+#textPanel .rotation-control input[type="range"]::-moz-range-thumb,
+#textPanel .curve-control input[type="range"]::-moz-range-thumb{
+  width:16px; height:16px; background:#3b82f6; border-radius:50%; cursor:pointer; border:none;
 }
 
-.size-control,
-.rotation-control,
-.curve-control {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+#textPanel .size-control span,
+#textPanel .rotation-control span,
+#textPanel .curve-control span{
+  min-width:2.5rem;
+  text-align:center;
+  border:1px solid var(--te-border);
+  border-radius:8px;
+  padding:.25rem .4rem;
+  background:var(--te-chip-bg);
+  color:#374151;
+  font-weight:600;
+  font-size:.8rem;
 }
 
-.size-control input[type="range"],
-.rotation-control input[type="range"],
-.curve-control input[type="range"] {
-    flex: 1;
-    height: 6px;
-    background: #e5e7eb;
-    border-radius: 3px;
-    outline: none;
-    -webkit-appearance: none;
+/* =========================
+   Font + Color pickers
+========================= */
+#textPanel select#fontFamily{
+  max-width:60%;
+  padding:.35rem .5rem;
+  border:1px solid #d1d5db;
+  border-radius:8px;
+  font-size:.85rem;
+  background:#fff;
 }
 
-.size-control input[type="range"]::-webkit-slider-thumb,
-.rotation-control input[type="range"]::-webkit-slider-thumb,
-.curve-control input[type="range"]::-webkit-slider-thumb {
-    appearance: none;
-    width: 16px;
-    height: 16px;
-    background: #3b82f6;
-    border-radius: 50%;
-    cursor: pointer;
+#textPanel input#textColor,
+#textPanel input#outlineColor{
+  width:28px; height:24px;
+  padding:0;
+  border:1px solid var(--te-border);
+  border-radius:6px;
 }
 
-.size-control input[type="range"]::-moz-range-thumb,
-.rotation-control input[type="range"]::-moz-range-thumb,
-.curve-control input[type="range"]::-moz-range-thumb {
-    width: 16px;
-    height: 16px;
-    background: #3b82f6;
-    border-radius: 50%;
-    cursor: pointer;
-    border: none;
+/* =========================
+   Outline controls
+========================= */
+#textPanel .outline-controls{
+  display:flex; align-items:center; gap:.5rem;
+}
+#textPanel .outline-controls input[type="checkbox"]{ width:16px; height:16px; }
+#textPanel .outline-controls input[type="range"]{
+  flex:1; max-width:140px; height:4px; background:#e5e7eb; border-radius:2px; outline:none; -webkit-appearance:none;
+}
+#textPanel .outline-controls input[type="range"]::-webkit-slider-thumb{
+  appearance:none; width:12px; height:12px; background:#3b82f6; border-radius:50%; cursor:pointer;
 }
 
-.size-control span,
-.rotation-control span,
-.curve-control span {
-    font-size: 0.75rem;
-    color: #6b7280;
-    min-width: 35px;
-    text-align: right;
+/* =========================
+   Effects buttons (B I U)
+========================= */
+#textPanel .effect-buttons{ display:flex; gap:.35rem; }
+#textPanel .effect-btn{
+  width:32px; height:28px;
+  border:1px solid #d1d5db;
+  background:#fff;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:700;
+  font-size:.9rem;
+  display:flex; align-items:center; justify-content:center;
+  transition:all .2s;
+}
+#textPanel .effect-btn:hover{ background:#f3f4f6; border-color:#9ca3af; }
+#textPanel .effect-btn.active{ background:#3b82f6; color:#fff; border-color:#3b82f6; }
+
+/* =========================
+   Footer actions
+========================= */
+#textPanel .text-editor-actions{
+  position:sticky; bottom:0;
+  background:linear-gradient(#fff,#f9fafb);
+  border-top:1px solid var(--te-border);
+  margin:.5rem -.25rem -.25rem;
+  padding:.5rem;
+  display:grid; grid-template-columns:repeat(2,1fr); gap:.5rem;
+}
+#textPanel .primary-btn{
+  background:#D97ED2; color:#fff; border:none;
+  padding:.5rem .6rem; border-radius:10px; cursor:pointer; font-weight:500; transition:background .2s;
+}
+#textPanel .primary-btn:hover{ background:#c963c4; }
+#textPanel .secondary-btn{
+  background:#6b7280; color:#fff; border:none;
+  padding:.5rem .6rem; border-radius:10px; cursor:pointer; font-size:.85rem; transition:background .2s;
+}
+#textPanel .secondary-btn:hover{ background:#4b5563; }
+
+/* Make the main action span full width when it's the only primary */
+#textPanel #addText{ grid-column:1 / -1; }
+
+/* =========================
+   Animation for buttons
+========================= */
+#textPanel .text-editor-actions button{
+  opacity:0; transform:translateY(-5px);
+  animation:fadeInUp .2s ease forwards;
+}
+@keyframes fadeInUp{ to{ opacity:1; transform:translateY(0); } }
+
+/* =========================
+   Text element states (on-canvas)
+========================= */
+.draggable.text-element{
+  font-weight:normal;
+  border-radius:4px;
+  transition:all .2s;
+}
+.draggable.text-element:hover{
+  border-color:#3b82f6;
+  box-shadow:0 0 0 2px rgba(59,130,246,.2);
+}
+.draggable.text-element.editing{
+  border-color:#f59e0b !important;
+  box-shadow:0 0 0 3px rgba(245,158,11,.3) !important;
+  background:rgba(245,158,11,.05);
+}
+.draggable.text-element.selected{
+  border-color:#ef4444;
+  box-shadow:0 0 0 2px rgba(239,68,68,.2);
 }
 
-.outline-controls {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+/* Performance / UX for draggables (scoped generally) */
+.draggable{
+  will-change:auto;
+  backface-visibility:hidden;
+  user-select:none; -webkit-user-select:none;
+  transition:cursor .1s ease;
+}
+.draggable:hover{ cursor:grab; }
+.draggable.selected{ z-index:15; }
+
+/* =========================
+   Responsive tweaks
+========================= */
+@media (max-width:768px){
+  #textPanel .control-group label{ font-size:.8rem; }
+  #textPanel .text-editor-actions{ gap:.4rem; }
 }
 
-.outline-controls input[type="checkbox"] {
-    width: 16px;
-    height: 16px;
-}
-
-.outline-controls input[type="color"] {
-    width: 30px;
-    height: 24px;
-    padding: 0;
-    border: 1px solid #d1d5db;
-    border-radius: 4px;
-}
-
-.outline-controls input[type="range"] {
-    flex: 1;
-    height: 4px;
-    background: #e5e7eb;
-    border-radius: 2px;
-    outline: none;
-    -webkit-appearance: none;
-}
-
-.outline-controls input[type="range"]::-webkit-slider-thumb {
-    appearance: none;
-    width: 12px;
-    height: 12px;
-    background: #3b82f6;
-    border-radius: 50%;
-    cursor: pointer;
-}
-
-.effect-buttons {
-    display: flex;
-    gap: 0.25rem;
-}
-
-.effect-btn {
-    width: 30px;
-    height: 30px;
-    border: 1px solid #d1d5db;
-    background: white;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 0.9rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-}
-
-.effect-btn:hover {
-    background: #f3f4f6;
-    border-color: #9ca3af;
-}
-
-.effect-btn.active {
-    background: #3b82f6;
-    color: white;
-    border-color: #3b82f6;
-}
-
-.effect-btn:nth-child(1) {
-    font-weight: 900; /* Bold */
-}
-
-.effect-btn:nth-child(2) {
-    font-style: italic; /* Italic */
-}
-
-.effect-btn:nth-child(3) {
-    text-decoration: underline; /* Underline */
-}
-
-.text-editor-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    margin-top: 1rem;
-    padding-top: 1rem;
-    border-top: 1px solid #e5e7eb;
-}
-
-.primary-btn {
-    background: #D97ED2;
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: background 0.2s;
-}
-
-.primary-btn:hover {
-    background: #c963c4;
-}
-
-.secondary-btn {
-    background: #6b7280;
-    color: white;
-    border: none;
-    padding: 0.4rem 0.8rem;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 0.85rem;
-    transition: background 0.2s;
-}
-
-.secondary-btn:hover {
-    background: #4b5563;
-}
-
-/* Text element states */
-.draggable.text-element {
-    font-weight: normal;
-    border-radius: 4px;
-    transition: all 0.2s;
-}
-
-.draggable.text-element:hover {
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
-}
-
-.draggable.text-element.editing {
-    border-color: #f59e0b !important;
-    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.3) !important;
-    background: rgba(245, 158, 11, 0.05);
-}
-
-.draggable.text-element.selected {
-    border-color: #ef4444;
-    box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2);
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .text-controls-grid {
-        gap: 0.5rem;
-    }
-    
-    .control-group label {
-        font-size: 0.75rem;
-    }
-    
-    .effect-buttons {
-        justify-content: center;
-    }
-    
-    .text-editor-actions {
-        gap: 0.4rem;
-    }
-    
-    .outline-controls {
-        flex-wrap: wrap;
-    }
-}
-
-/* Custom scrollbar for text editor */
-.text-editor-content::-webkit-scrollbar {
-    width: 4px;
-}
-
-.text-editor-content::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 4px;
-}
-
-.text-editor-content::-webkit-scrollbar-thumb {
-    background: #c1c1c1;
-    border-radius: 4px;
-}
-
-.text-editor-content::-webkit-scrollbar-thumb:hover {
-    background: #a8a8a8;
-}
-
-/* Animation for mode switching */
-.text-editor-actions button {
-    opacity: 0;
-    transform: translateY(-5px);
-    animation: fadeInUp 0.2s ease forwards;
-}
-
-@keyframes fadeInUp {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.draggable {
-    /* Optimize for frequent position changes */
-    will-change: auto;
-    
-    /* Ensure smooth rendering */
-    backface-visibility: hidden;
-    
-    /* Prevent text selection during drag */
-    user-select: none;
-    -webkit-user-select: none;
-    
-    /* Smooth cursor transitions */
-    transition: cursor 0.1s ease;
-}
-
-.draggable:hover {
-    cursor: grab;
-}
-
-.draggable.selected {
-    z-index: 15; /* Bring selected elements to front */
+@media (max-width:480px){
+  #textPanel .text-editor-content{ padding:.25rem; }
+  #textPanel .control-group{ padding:.4rem .45rem; min-height:40px; }
+  #textPanel .control-group label{ flex-basis:100px; }
+  #textPanel .size-control, 
+  #textPanel .rotation-control, 
+  #textPanel .curve-control{ max-width:68%; }
+  #textPanel .effect-btn{ width:30px; height:26px; }
+  #textPanel .primary-btn, 
+  #textPanel .secondary-btn{ font-size:.8rem; }
 }

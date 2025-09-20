@@ -217,6 +217,31 @@ class TShirtDesigner {
         }
     }
 
+    // Viewport rects
+    _getCanvasRect() {
+        const canvas = document.getElementById('tshirtCanvas');
+        return canvas ? canvas.getBoundingClientRect() : null;
+    }
+    _getBoundaryRect() {
+        const canvas = document.getElementById('tshirtCanvas');
+        if (!canvas) return null;
+        const el = canvas.querySelector('.customization-boundary');
+        return el ? el.getBoundingClientRect() : null;
+    }
+
+    // NEW: local (canvas) coords for the visible boundary
+    _getBoundaryLocal() {
+        const c = this._getCanvasRect();
+        const b = this._getBoundaryRect();
+        if (!c || !b) return null;
+        return { x: b.left - c.left, y: b.top - c.top, width: b.width, height: b.height };
+    }
+
+        // Optional public alias (handy to call from TextEditor, etc.)
+        getCurrentBoundaryBox() {
+        return this._getBoundaryLocal() || this.getResponsiveCustomizationBounds(this.currentView);
+    }
+
     // ===== Masked color layer =====
     ensureColorLayer() {
         const canvas = document.getElementById('tshirtCanvas');
@@ -629,7 +654,8 @@ class TShirtDesigner {
     addImageElement(src) {
         const canvas = document.getElementById('tshirtCanvas');
         if (!canvas) return;
-        const bounds = this.customizationBounds[this.currentView];
+        //const bounds = this.customizationBounds[this.currentView];
+        const bounds = this.getCurrentBoundaryBox();
 
         const img = document.createElement('img');
         const container = document.createElement('div');
@@ -687,7 +713,8 @@ class TShirtDesigner {
 
         const canvas = document.getElementById('tshirtCanvas');
         if (!canvas) return;
-        const bounds = this.customizationBounds[this.currentView];
+        //const bounds = this.customizationBounds[this.currentView];
+        const bounds = this.getCurrentBoundaryBox();
         const textElement = document.createElement('div');
 
         textElement.className = 'draggable text-element';
@@ -725,18 +752,19 @@ class TShirtDesigner {
             const dx = e.clientX - startX;
             const dy = e.clientY - startY;
 
-            const bounds = this.customizationBounds[this.currentView];
+            // 🔁 use the live, CSS-sized boundary
+            const bounds = this.getCurrentBoundaryBox();
+
             let newX = startLeft + dx;
             let newY = startTop + dy;
 
-            // Simple (non-rotated) clamp while dragging
             if (bounds) {
-                newX = Math.max(bounds.x, Math.min(bounds.x + bounds.width - element.offsetWidth, newX));
+                newX = Math.max(bounds.x, Math.min(bounds.x + bounds.width  - element.offsetWidth,  newX));
                 newY = Math.max(bounds.y, Math.min(bounds.y + bounds.height - element.offsetHeight, newY));
             }
 
             element.style.left = newX + 'px';
-            element.style.top = newY + 'px';
+            element.style.top  = newY + 'px';
         };
 
         const onPointerUp = (e) => {

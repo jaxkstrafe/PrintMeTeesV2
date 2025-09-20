@@ -778,7 +778,8 @@ if (window.TextEditor) {
         const canvas = document.getElementById('tshirtCanvas');
         if (!canvas) return;
 
-        const bounds = this.designer.getResponsiveCustomizationBounds(this.designer.currentView);
+        //const bounds = this.designer.getResponsiveCustomizationBounds(this.designer.currentView);
+        const bounds = this.designer.getCurrentBoundaryBox();
         const textElement = document.createElement('div');
 
         textElement.className = 'draggable text-element';

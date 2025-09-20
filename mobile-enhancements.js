@@ -993,28 +993,7 @@ class MobileEnhancements {
         const actionButtons = document.querySelector('.action-buttons');
         if (actionButtons && this.isMobile) {
             const mobileShareBtn = document.createElement('button');
-            mobileShareBtn.textContent = 'Share Design';
             mobileShareBtn.className = 'save-btn mobile-only';
-            mobileShareBtn.addEventListener('click', this.shareDesign.bind(this));
-            actionButtons.appendChild(mobileShareBtn);
-        }
-    }
-
-    shareDesign() {
-        if (navigator.share) {
-            // Use native sharing if available
-            navigator.share({
-                title: 'My Custom T-Shirt Design',
-                text: 'Check out my custom t-shirt design!',
-                url: window.location.href
-            }).catch(console.error);
-        } else {
-            // Fallback to copying link
-            navigator.clipboard.writeText(window.location.href).then(() => {
-                alert('Design link copied to clipboard!');
-            }).catch(() => {
-                alert('Unable to share. Please copy the URL manually.');
-            });
         }
     }
 
