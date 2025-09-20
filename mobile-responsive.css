@@ -1,0 +1,1446 @@
+/* Enhanced Mobile Responsive Styles with Centered Customization Boundaries */
+
+/* Responsive customization boundary positioning */
+.customization-boundary {
+    /* Use percentage-based positioning for better responsiveness */
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    
+    /* Responsive sizing based on container */
+    width: 45% !important;
+    height: 50% !important;
+    max-width: 275px !important;
+    max-height: 350px !important;
+    min-width: 150px !important;
+    min-height: 180px !important;
+    
+    /* Ensure proper positioning */
+    position: absolute !important;
+    border: 2px dashed #3b82f6 !important;
+    backgroundColor: rgba(59, 130, 246, 0.05) !important;
+    pointerEvents: none !important;
+    zIndex: 5 !important;
+    borderRadius: 8px !important;
+}
+
+/* View-specific boundary adjustments */
+.customization-boundary[data-view="front"] {
+    width: 45% !important;
+    height: 50% !important;
+    top: 48% !important;
+}
+
+.customization-boundary[data-view="side"] {
+    width: 22% !important;
+    height: 25% !important;
+    top: 35% !important;
+    left: 55% !important;
+}
+
+.customization-boundary[data-view="back"] {
+    width: 45% !important;
+    height: 55% !important;
+    top: 45% !important;
+}
+
+/* Boundary label positioning */
+.customization-boundary div {
+    position: absolute !important;
+    top: -25px !important;
+    left: 0 !important;
+    fontSize: 12px !important;
+    color: #3b82f6 !important;
+    backgroundColor: white !important;
+    padding: 2px 6px !important;
+    borderRadius: 4px !important;
+    border: 1px solid #3b82f6 !important;
+    whiteSpace: nowrap !important;
+}
+
+/* Desktop and large tablet styles */
+@media (min-width: 1025px) {
+    .customization-boundary {
+        width: 45% !important;
+        height: 50% !important;
+        border-width: 2px !important;
+    }
+    
+    .customization-boundary[data-view="side"] {
+        width: 22% !important;
+        height: 25% !important;
+    }
+    
+    .customization-boundary[data-view="back"] {
+        height: 55% !important;
+    }
+}
+
+/* Tablet-specific boundary adjustments */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .customization-boundary {
+        width: 40% !important;
+        height: 45% !important;
+        border-width: 2px !important;
+    }
+    
+    .customization-boundary[data-view="front"] {
+        width: 40% !important;
+        height: 45% !important;
+        top: 48% !important;
+    }
+    
+    .customization-boundary[data-view="side"] {
+        width: 20% !important;
+        height: 22% !important;
+        top: 35% !important;
+        left: 55% !important;
+    }
+    
+    .customization-boundary[data-view="back"] {
+        width: 40% !important;
+        height: 50% !important;
+        top: 45% !important;
+    }
+}
+
+/* Mobile tablet styles */
+@media (max-width: 768px) and (min-width: 481px) {
+    .customization-boundary {
+        width: 48% !important;
+        height: 52% !important;
+        border-width: 2px !important;
+    }
+    
+    .customization-boundary[data-view="front"] {
+        width: 48% !important;
+        height: 52% !important;
+        top: 50% !important;
+    }
+    
+    .customization-boundary[data-view="side"] {
+        width: 24% !important;
+        height: 26% !important;
+        top: 37% !important;
+        left: 57% !important;
+    }
+    
+    .customization-boundary[data-view="back"] {
+        width: 48% !important;
+        height: 57% !important;
+        top: 47% !important;
+    }
+    
+    .customization-boundary div {
+        fontSize: 11px !important;
+    }
+}
+
+/* Mobile phone styles */
+@media (max-width: 480px) {
+    .customization-boundary {
+        width: 50% !important;
+        height: 55% !important;
+        border-width: 1px !important;
+    }
+    
+    .customization-boundary[data-view="front"] {
+        width: 50% !important;
+        height: 55% !important;
+        top: 50% !important;
+    }
+    
+    .customization-boundary[data-view="side"] {
+        width: 25% !important;
+        height: 28% !important;
+        top: 38% !important;
+        left: 58% !important;
+    }
+    
+    .customization-boundary[data-view="back"] {
+        width: 50% !important;
+        height: 60% !important;
+        top: 48% !important;
+    }
+    
+    .customization-boundary div {
+        fontSize: 10px !important;
+        padding: 1px 4px !important;
+        top: -20px !important;
+    }
+
+    /* Sidebar improvements */
+    .sidebar {
+        padding: 0.5rem;
+    }
+    
+    .sidebar-header {
+        margin-bottom: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .tool-section h3 {
+        font-size: 1rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .tool-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+    }
+    
+    .tool-btn {
+        padding: 0.75rem 0.25rem;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+    
+    .tool-icon {
+        font-size: 1.5rem;
+    }
+    
+    .tool-btn span {
+        font-size: 0.7rem;
+        text-align: center;
+    }
+    
+    /* Panel improvements for mobile */
+    .panel {
+        margin-top: 0.75rem;
+        padding: 0.75rem;
+        border-radius: 6px;
+    }
+    
+    .panel h4 {
+        font-size: 0.9rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    /* Upload panel mobile */
+    .upload-area {
+        padding: 1rem;
+        text-align: center;
+    }
+    
+    .upload-icon {
+        font-size: 1.5rem;
+    }
+    
+    .upload-area p {
+        font-size: 0.8rem;
+        margin: 0.5rem 0;
+    }
+    
+    .upload-btn {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.8rem;
+    }
+    
+    /* Color grid mobile optimization */
+    .color-grid {
+        grid-template-columns: repeat(8, 1fr);
+        gap: 0.25rem;
+        max-height: 200px;
+    }
+    
+    .color-option {
+        width: 28px;
+        height: 28px;
+        border-radius: 6px;
+    }
+    
+    /* Design area mobile */
+    .design-area {
+        padding: 0.5rem;
+        min-height: 50vh;
+    }
+    
+    .product-preview {
+        padding: 1rem;
+        border-radius: 10px;
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden;
+    }
+    
+    .tshirt-container {
+        width: 100%;
+        max-width: 350px;
+        height: 400px;
+        margin: 0 auto;
+        position: relative;
+    }
+    
+    /* Right panel mobile */
+    .right-panel {
+        padding: 0.75rem;
+    }
+    
+    .view-tabs {
+        gap: 0.25rem;
+        margin-bottom: 1rem;
+    }
+    
+    .view-tab {
+        padding: 0.5rem 0.25rem;
+        font-size: 0.75rem;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+    
+    .view-tab .view-thumb {
+        width: 25px;
+        height: 25px;
+        margin-bottom: 0.25rem;
+    }
+    
+    .product-info {
+        margin-bottom: 1rem;
+    }
+    
+    .product-info h3 {
+        font-size: 1rem;
+    }
+    
+    .product-info p {
+        font-size: 0.8rem;
+    }
+    
+    .action-buttons {
+        gap: 0.75rem;
+    }
+    
+    .save-btn, .price-btn {
+        padding: 0.75rem;
+        font-size: 0.9rem;
+        border-radius: 6px;
+    }
+    
+    /* Product selection mobile */
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+        margin-top: 1rem;
+    }
+    
+    .product-card {
+        padding: 1rem;
+        border-radius: 10px;
+    }
+    
+    .product-card img {
+        height: 120px;
+        margin-bottom: 0.75rem;
+    }
+    
+    .product-card h3 {
+        font-size: 1.1rem;
+        margin-bottom: 0.25rem;
+    }
+    
+    .product-card p {
+        font-size: 1rem;
+    }
+    
+    #productSelection h1 {
+        font-size: 1.75rem;
+        margin-bottom: 2rem;
+    }
+    
+    /* Draggable elements mobile optimization */
+    .draggable {
+        min-width: 40px;
+        min-height: 20px;
+        padding: 2px;
+        border-width: 1px;
+    }
+    
+    .draggable:hover,
+    .draggable.selected {
+        border-width: 2px;
+    }
+    
+    .draggable img {
+        max-width: 80px;
+        max-height: 80px;
+    }
+    
+    .draggable.text-element {
+        font-size: 14px !important;
+        min-font-size: 12px;
+    }
+    
+    /* Touch-friendly customization boundary */
+    .customization-boundary {
+        border-width: 1px;
+        border-style: solid;
+    }
+    
+    .customization-boundary div {
+        font-size: 10px;
+        padding: 1px 4px;
+    }
+}
+
+/* Ultra-small screens (very small phones) */
+@media (max-width: 360px) {
+    .customization-boundary {
+        width: 52% !important;
+        height: 58% !important;
+        border-width: 1px !important;
+    }
+    
+    .customization-boundary[data-view="front"] {
+        width: 52% !important;
+        height: 40% !important;
+        top: 52% !important;
+    }
+    
+    .customization-boundary[data-view="side"] {
+        width: 28% !important;
+        height: 32% !important;
+        top: 40% !important;
+        left: 60% !important;
+    }
+    
+    .customization-boundary[data-view="back"] {
+        width: 52% !important;
+        height: 62% !important;
+        top: 50% !important;
+    }
+    
+    .customization-boundary div {
+        fontSize: 9px !important;
+        padding: 1px 3px !important;
+        top: -18px !important;
+    }
+    
+    .container {
+        padding: 1rem;
+    }
+    
+    .sidebar {
+        padding: 0.5rem;
+    }
+    
+    .tool-grid {
+        gap: 0.25rem;
+    }
+    
+    .tool-btn {
+        padding: 0.5rem 0.125rem;
+    }
+    
+    .tool-icon {
+        font-size: 1.25rem;
+    }
+    
+    .tool-btn span {
+        font-size: 0.65rem;
+    }
+    
+    .tshirt-container {
+        max-width: 280px;
+        height: 320px;
+    }
+    
+    .product-grid {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+    
+    .color-grid {
+        grid-template-columns: repeat(6, 1fr);
+    }
+    
+    .color-option {
+        width: 24px;
+        height: 24px;
+    }
+    
+    .view-tab .view-thumb {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .draggable img {
+        max-width: 60px;
+        max-height: 60px;
+    }
+}
+
+/* Landscape mobile optimization */
+@media (max-width: 768px) and (orientation: landscape) {
+    .designer-container {
+        grid-template-columns: 250px 1fr 200px;
+        grid-template-rows: 1fr;
+        height: 100vh;
+    }
+    
+    .sidebar {
+        order: 1;
+        border-right: 1px solid #e2e8f0;
+        border-bottom: none;
+        overflow-y: auto;
+        max-height: 100vh;
+    }
+    
+    .design-area {
+        order: 2;
+        min-height: auto;
+    }
+    
+    .right-panel {
+        order: 3;
+        border-left: 1px solid #e2e8f0;
+        border-top: none;
+        overflow-y: auto;
+        max-height: 100vh;
+    }
+    
+    .tshirt-container {
+        width: 300px;
+        height: 350px;
+    }
+    
+    .tool-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    /* Adjust boundaries for landscape */
+    .customization-boundary {
+        width: 45% !important;
+        height: 50% !important;
+    }
+    
+    .customization-boundary[data-view="side"] {
+        width: 22% !important;
+        height: 25% !important;
+    }
+    
+    .customization-boundary[data-view="back"] {
+        height: 55% !important;
+    }
+}
+
+/* Touch-specific improvements */
+@media (pointer: coarse) {
+    .tool-btn {
+        min-height: 44px; /* Apple's recommended touch target size */
+        min-width: 44px;
+    }
+    
+    .color-option {
+        min-width: 32px;
+        min-height: 32px;
+    }
+    
+    .view-tab {
+        min-height: 44px;
+    }
+    
+    .save-btn, .price-btn, .back-btn {
+        min-height: 44px;
+        padding: 0.75rem 1rem;
+    }
+    
+    .upload-btn {
+        min-height: 44px;
+        padding: 0.75rem 1rem;
+    }
+    
+    /* Larger touch targets for draggable elements */
+    .draggable {
+        min-width: 44px;
+        min-height: 44px;
+        touch-action: manipulation;
+    }
+    
+    /* Prevent zoom on double tap */
+    .tshirt-canvas {
+        touch-action: pan-x pan-y;
+    }
+}
+
+/* High DPI display adjustments */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .product-card img,
+    .view-thumb {
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+    }
+    
+    .customization-boundary {
+        border-width: 1px !important;
+    }
+}
+
+/* Accessibility improvements for mobile */
+@media (max-width: 768px) {
+    /* Ensure sufficient contrast and visibility */
+    .draggable.selected {
+        border-color: #ef4444;
+        border-width: 3px;
+        box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.5);
+    }
+    
+    .draggable:hover {
+        border-color: #3b82f6;
+        border-width: 2px;
+    }
+    
+    /* Better focus indicators */
+    .tool-btn:focus,
+    .view-tab:focus,
+    .color-option:focus {
+        outline: 2px solid #3b82f6;
+        outline-offset: 2px;
+    }
+    
+    /* Ensure text remains readable */
+    .draggable.text-element {
+        min-font-size: 12px;
+    }
+    
+    /* Enhanced boundary visibility on mobile */
+    .customization-boundary {
+        border-style: dashed !important;
+        animation: borderPulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes borderPulse {
+        0%, 100% { opacity: 0.7; }
+        50% { opacity: 1; }
+    }
+}
+
+/* Canvas container responsive positioning */
+.tshirt-canvas {
+    position: relative !important;
+    width: 100% !important;
+    height: 100% !important;
+    contain: layout paint size;
+    overflow: hidden;
+}
+
+/* Ensure product images scale properly */
+.tshirt-view-image {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+    pointer-events: none !important;
+    z-index: 1 !important;
+    opacity: 0.8 !important;
+}
+
+/* Color layer responsive */
+.tshirt-color-layer {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: 2 !important;
+    pointer-events: none !important;
+    mix-blend-mode: multiply !important;
+    mask-repeat: no-repeat !important;
+    mask-position: center !important;
+    mask-size: contain !important;
+    -webkit-mask-repeat: no-repeat !important;
+    -webkit-mask-position: center !important;
+    -webkit-mask-size: contain !important;
+}
+
+/* Loading states for mobile */
+.mobile-loading {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .mobile-loading {
+        display: block;
+        text-align: center;
+        padding: 1rem;
+        color: #6b7280;
+        font-size: 0.9rem;
+    }
+}
+
+/* Mobile-specific utility classes */
+@media (max-width: 768px) {
+    .mobile-hidden {
+        display: none !important;
+    }
+    
+    .mobile-only {
+        display: block !important;
+    }
+    
+    .mobile-full-width {
+        width: 100% !important;
+    }
+    
+    .mobile-center {
+        text-align: center !important;
+    }
+}
+
+/* Prevent horizontal scrolling on mobile */
+@media (max-width: 768px) {
+    body {
+        overflow-x: hidden;
+    }
+    
+    .page {
+        overflow-x: hidden;
+    }
+    
+    .designer-container {
+        overflow-x: hidden;
+    }
+}
+
+/* Mobile keyboard adjustments */
+@media (max-width: 768px) {
+    /* When keyboard is open, adjust viewport */
+    .designer-container {
+        min-height: 100vh;
+        min-height: -webkit-fill-available;
+    }
+    
+    .design-area {
+        min-height: 40vh;
+    }
+    
+    /* Keyboard open state adjustments */
+    body.keyboard-open .design-area {
+        min-height: 30vh;
+    }
+    
+    body.keyboard-open .sidebar {
+        max-height: 40vh;
+        overflow-y: auto;
+    }
+}
+
+/* Performance optimizations for mobile */
+@media (max-width: 768px) {
+    .tshirt-canvas,
+    .draggable {
+        will-change: auto;
+        transform: translateZ(0);
+        backface-visibility: hidden;
+    }
+    
+    /* Reduce animations on lower-end devices */
+    @media (prefers-reduced-motion: reduce) {
+        .draggable,
+        .tool-btn,
+        .product-card,
+        .customization-boundary {
+            transition: none;
+            animation: none;
+        }
+    }
+}
+
+/* Mobile-first approach for designer container */
+@media (max-width: 1024px) {
+    .designer-container {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto 1fr;
+        height: auto;
+        min-height: 100vh;
+    }
+    
+    .sidebar {
+        order: 1;
+        border-right: none;
+        border-bottom: 1px solid #e2e8f0;
+        max-height: none;
+        overflow-y: visible;
+    }
+    
+    .design-area {
+        order: 2;
+        min-height: 60vh;
+        padding: 1rem;
+    }
+    
+    .right-panel {
+        order: 3;
+        border-left: none;
+        border-top: 1px solid #e2e8f0;
+    }
+}
+
+/* Tablet-specific adjustments */
+@media (max-width: 768px) and (min-width: 481px) {
+    .sidebar {
+        padding: 0.75rem;
+    }
+    
+    .tool-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.75rem;
+    }
+    
+    .tool-btn {
+        padding: 0.75rem 0.5rem;
+    }
+    
+    .tool-icon {
+        font-size: 1.25rem;
+    }
+    
+    .tool-btn span {
+        font-size: 0.75rem;
+    }
+    
+    .product-preview {
+        padding: 1.5rem;
+    }
+    
+    .tshirt-container {
+        width: 400px;
+        height: 500px;
+    }
+}
+
+/* Improved mobile boundary label positioning */
+@media (max-width: 480px) {
+    .customization-boundary div {
+        position: absolute !important;
+        top: -20px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        font-size: 10px !important;
+        color: #3b82f6 !important;
+        background: white !important;
+        padding: 2px 6px !important;
+        border-radius: 4px !important;
+        border: 1px solid #3b82f6 !important;
+        white-space: nowrap !important;
+        z-index: 10 !important;
+    }
+}
+
+@media (max-width: 360px) {
+    .customization-boundary div {
+        font-size: 9px !important;
+        padding: 1px 4px !important;
+        top: -18px !important;
+    }
+}/* Enhanced Mobile Responsive Styles */
+
+/* Base styles remain the same, adding mobile-specific improvements */
+
+/* Mobile-first approach for designer container */
+@media (max-width: 1024px) {
+    .designer-container {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto 1fr;
+        height: auto;
+        min-height: 100vh;
+    }
+    
+    .sidebar {
+        order: 1;
+        border-right: none;
+        border-bottom: 1px solid #e2e8f0;
+        max-height: none;
+        overflow-y: visible;
+    }
+    
+    .design-area {
+        order: 2;
+        min-height: 60vh;
+        padding: 1rem;
+    }
+    
+    .right-panel {
+        order: 3;
+        border-left: none;
+        border-top: 1px solid #e2e8f0;
+    }
+}
+
+/* Tablet-specific adjustments */
+@media (max-width: 768px) and (min-width: 481px) {
+    .sidebar {
+        padding: 0.75rem;
+    }
+    
+    .tool-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.75rem;
+    }
+    
+    .tool-btn {
+        padding: 0.75rem 0.5rem;
+    }
+    
+    .tool-icon {
+        font-size: 1.25rem;
+    }
+    
+    .tool-btn span {
+        font-size: 0.75rem;
+    }
+    
+    .product-preview {
+        padding: 1.5rem;
+    }
+    
+    .tshirt-container {
+        width: 400px;
+        height: 500px;
+    }
+}
+
+/* Responsive customization boundary positioning */
+.customization-boundary {
+    /* Use percentage-based positioning for better responsiveness */
+    left: 50% !important;
+    top: 41% !important;
+    transform: translate(-50%, -50%) !important;
+    
+    /* Responsive sizing based on container */
+    width: 45% !important;
+    height: 50% !important;
+    max-width: 275px !important;
+    max-height: 350px !important;
+    min-width: 150px !important;
+    min-height: 180px !important;
+}
+
+/* View-specific boundary adjustments */
+.customization-boundary[data-view="front"] {
+    width: 45% !important;
+    height: 50% !important;
+    top: 48% !important;
+}
+
+.customization-boundary[data-view="side"] {
+    width: 22% !important;
+    height: 25% !important;
+    top: 35% !important;
+    left: 55% !important;
+}
+
+.customization-boundary[data-view="back"] {
+    width: 45% !important;
+    height: 55% !important;
+    top: 45% !important;
+}
+
+/* Tablet-specific boundary adjustments */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .customization-boundary {
+        width: 40% !important;
+        height: 45% !important;
+    }
+    
+    .customization-boundary[data-view="side"] {
+        width: 20% !important;
+        height: 22% !important;
+    }
+}
+
+/* Mobile phone styles */
+@media (max-width: 480px) {
+    .customization-boundary {
+        width: 50% !important;
+        height: 55% !important;
+        border-width: 1px !important;
+    }
+    
+    .customization-boundary[data-view="front"] {
+        width: 50% !important;
+        height: 55% !important;
+        top: 50% !important;
+    }
+    
+    .customization-boundary[data-view="side"] {
+        width: 25% !important;
+        height: 28% !important;
+        top: 38% !important;
+        left: 58% !important;
+    }
+    
+    .customization-boundary[data-view="back"] {
+        width: 50% !important;
+        height: 60% !important;
+        top: 48% !important;
+    }
+
+    /* Sidebar improvements */
+    .sidebar {
+        padding: 0.5rem;
+    }
+    
+    .sidebar-header {
+        margin-bottom: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .tool-section h3 {
+        font-size: 1rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .tool-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+    }
+    
+    .tool-btn {
+        padding: 0.75rem 0.25rem;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+    
+    .tool-icon {
+        font-size: 1.5rem;
+    }
+    
+    .tool-btn span {
+        font-size: 0.7rem;
+        text-align: center;
+    }
+    
+    /* Panel improvements for mobile */
+    .panel {
+        margin-top: 0.75rem;
+        padding: 0.75rem;
+        border-radius: 6px;
+    }
+    
+    .panel h4 {
+        font-size: 0.9rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    /* Upload panel mobile */
+    .upload-area {
+        padding: 1rem;
+        text-align: center;
+    }
+    
+    .upload-icon {
+        font-size: 1.5rem;
+    }
+    
+    .upload-area p {
+        font-size: 0.8rem;
+        margin: 0.5rem 0;
+    }
+    
+    .upload-btn {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.8rem;
+    }
+    
+    /* Color grid mobile optimization */
+    .color-grid {
+        grid-template-columns: repeat(8, 1fr);
+        gap: 0.25rem;
+        max-height: 200px;
+    }
+    
+    .color-option {
+        width: 28px;
+        height: 28px;
+        border-radius: 6px;
+    }
+    
+    /* Design area mobile */
+    .design-area {
+        padding: 0.5rem;
+        min-height: 50vh;
+    }
+    
+    .product-preview {
+        padding: 1rem;
+        border-radius: 10px;
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden;
+    }
+    
+    .tshirt-container {
+        width: 100%;
+        max-width: 350px;
+        height: 400px;
+        margin: 0 auto;
+    }
+    
+    /* Right panel mobile */
+    .right-panel {
+        padding: 0.75rem;
+    }
+    
+    .view-tabs {
+        gap: 0.25rem;
+        margin-bottom: 1rem;
+    }
+    
+    .view-tab {
+        padding: 0.5rem 0.25rem;
+        font-size: 0.75rem;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+    
+    .view-tab .view-thumb {
+        width: 25px;
+        height: 25px;
+        margin-bottom: 0.25rem;
+    }
+    
+    .product-info {
+        margin-bottom: 1rem;
+    }
+    
+    .product-info h3 {
+        font-size: 1rem;
+    }
+    
+    .product-info p {
+        font-size: 0.8rem;
+    }
+    
+    .action-buttons {
+        gap: 0.75rem;
+    }
+    
+    .save-btn, .price-btn {
+        padding: 0.75rem;
+        font-size: 0.9rem;
+        border-radius: 6px;
+    }
+    
+    /* Product selection mobile */
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+        margin-top: 1rem;
+    }
+    
+    .product-card {
+        padding: 1rem;
+        border-radius: 10px;
+    }
+    
+    .product-card img {
+        height: 120px;
+        margin-bottom: 0.75rem;
+    }
+    
+    .product-card h3 {
+        font-size: 1.1rem;
+        margin-bottom: 0.25rem;
+    }
+    
+    .product-card p {
+        font-size: 1rem;
+    }
+    
+    #productSelection h1 {
+        font-size: 1.75rem;
+        margin-bottom: 2rem;
+    }
+    
+    /* Draggable elements mobile optimization */
+    .draggable {
+        min-width: 40px;
+        min-height: 20px;
+        padding: 2px;
+        border-width: 1px;
+    }
+    
+    .draggable:hover,
+    .draggable.selected {
+        border-width: 2px;
+    }
+    
+    .draggable img {
+        max-width: 80px;
+        max-height: 80px;
+    }
+    
+    .draggable.text-element {
+        font-size: 14px !important;
+        min-font-size: 12px;
+    }
+    
+    /* Touch-friendly customization boundary */
+    .customization-boundary {
+        border-width: 1px;
+        border-style: solid;
+    }
+    
+    .customization-boundary div {
+        font-size: 10px;
+        padding: 1px 4px;
+    }
+}
+
+/* Ultra-small screens (very small phones) */
+@media (max-width: 360px) {
+    .container {
+        padding: 1rem;
+    }
+    
+    .sidebar {
+        padding: 0.5rem;
+    }
+    
+    .tool-grid {
+        gap: 0.25rem;
+    }
+    
+    .tool-btn {
+        padding: 0.5rem 0.125rem;
+    }
+    
+    .tool-icon {
+        font-size: 1.25rem;
+    }
+    
+    .tool-btn span {
+        font-size: 0.65rem;
+    }
+    
+    .tshirt-container {
+        max-width: 280px;
+        height: 320px;
+    }
+    
+    .product-grid {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+    
+    .color-grid {
+        grid-template-columns: repeat(6, 1fr);
+    }
+    
+    .color-option {
+        width: 24px;
+        height: 24px;
+    }
+    
+    .view-tab .view-thumb {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .draggable img {
+        max-width: 60px;
+        max-height: 60px;
+    }
+}
+
+/* Landscape mobile optimization */
+@media (max-width: 768px) and (orientation: landscape) {
+    .designer-container {
+        grid-template-columns: 250px 1fr 200px;
+        grid-template-rows: 1fr;
+        height: 100vh;
+    }
+    
+    .sidebar {
+        order: 1;
+        border-right: 1px solid #e2e8f0;
+        border-bottom: none;
+        overflow-y: auto;
+        max-height: 100vh;
+    }
+    
+    .design-area {
+        order: 2;
+        min-height: auto;
+    }
+    
+    .right-panel {
+        order: 3;
+        border-left: 1px solid #e2e8f0;
+        border-top: none;
+        overflow-y: auto;
+        max-height: 100vh;
+    }
+    
+    .tshirt-container {
+        width: 300px;
+        height: 350px;
+    }
+    
+    .tool-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* Touch-specific improvements */
+@media (pointer: coarse) {
+    .tool-btn {
+        min-height: 44px; /* Apple's recommended touch target size */
+        min-width: 44px;
+    }
+    
+    .color-option {
+        min-width: 32px;
+        min-height: 32px;
+    }
+    
+    .view-tab {
+        min-height: 44px;
+    }
+    
+    .save-btn, .price-btn, .back-btn {
+        min-height: 44px;
+        padding: 0.75rem 1rem;
+    }
+    
+    .upload-btn {
+        min-height: 44px;
+        padding: 0.75rem 1rem;
+    }
+    
+    /* Larger touch targets for draggable elements */
+    .draggable {
+        min-width: 44px;
+        min-height: 44px;
+        touch-action: manipulation;
+    }
+    
+    /* Prevent zoom on double tap */
+    .tshirt-canvas {
+        touch-action: pan-x pan-y;
+    }
+}
+
+/* High DPI display adjustments */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .product-card img,
+    .view-thumb {
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+    }
+}
+
+/* Accessibility improvements for mobile */
+@media (max-width: 768px) {
+    /* Ensure sufficient contrast and visibility */
+    .draggable.selected {
+        border-color: #ef4444;
+        border-width: 3px;
+        box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.5);
+    }
+    
+    .draggable:hover {
+        border-color: #3b82f6;
+        border-width: 2px;
+    }
+    
+    /* Better focus indicators */
+    .tool-btn:focus,
+    .view-tab:focus,
+    .color-option:focus {
+        outline: 2px solid #3b82f6;
+        outline-offset: 2px;
+    }
+    
+    /* Ensure text remains readable */
+    .draggable.text-element {
+        min-font-size: 12px;
+    }
+}
+
+/* Loading states for mobile */
+.mobile-loading {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .mobile-loading {
+        display: block;
+        text-align: center;
+        padding: 1rem;
+        color: #6b7280;
+        font-size: 0.9rem;
+    }
+}
+
+/* Mobile-specific utility classes */
+@media (max-width: 768px) {
+    .mobile-hidden {
+        display: none !important;
+    }
+    
+    .mobile-only {
+        display: block !important;
+    }
+    
+    .mobile-full-width {
+        width: 100% !important;
+    }
+    
+    .mobile-center {
+        text-align: center !important;
+    }
+}
+
+/* Prevent horizontal scrolling on mobile */
+@media (max-width: 768px) {
+    body {
+        overflow-x: hidden;
+    }
+    
+    .page {
+        overflow-x: hidden;
+    }
+    
+    .designer-container {
+        overflow-x: hidden;
+    }
+}
+
+/* Mobile keyboard adjustments */
+@media (max-width: 768px) {
+    /* When keyboard is open, adjust viewport */
+    .designer-container {
+        min-height: 100vh;
+        min-height: -webkit-fill-available;
+    }
+    
+    .design-area {
+        min-height: 40vh;
+    }
+}
+
+/* Performance optimizations for mobile */
+@media (max-width: 768px) {
+    .tshirt-canvas,
+    .draggable {
+        will-change: auto;
+        transform: translateZ(0);
+        backface-visibility: hidden;
+    }
+    
+    /* Reduce animations on lower-end devices */
+    @media (prefers-reduced-motion: reduce) {
+        .draggable,
+        .tool-btn,
+        .product-card {
+            transition: none;
+        }
+    }
+}

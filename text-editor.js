@@ -556,3 +556,310 @@ class TextEditor {
 
 // Export
 window.TextEditor = TextEditor;
+
+// Add this to your existing script.js or replace the boundary-related methods
+
+// Update the TShirtDesigner class to handle responsive boundaries
+
+// Replace the existing customizationBounds object with this dynamic calculation
+TShirtDesigner.prototype.getResponsiveCustomizationBounds = function(view = this.currentView) {
+    const canvas = document.getElementById('tshirtCanvas');
+    if (!canvas) return { x: 0, y: 0, width: 100, height: 100 };
+    
+    const canvasRect = canvas.getBoundingClientRect();
+    const canvasWidth = canvasRect.width || canvas.clientWidth;
+    const canvasHeight = canvasRect.height || canvas.clientHeight;
+    
+    // Base percentages for different views
+    const viewConfigs = {
+        front: {
+            widthPercent: 45,
+            heightPercent: 55,
+            xOffsetPercent: 50,
+            yOffsetPercent: 30
+        },
+        side: {
+            widthPercent: 22,
+            heightPercent: 25,
+            xOffsetPercent: 55,
+            yOffsetPercent: 35
+        },
+        back: {
+            widthPercent: 45,
+            heightPercent: 55,
+            xOffsetPercent: 50,
+            yOffsetPercent: 45
+        }
+    };
+    
+    const config = viewConfigs[view] || viewConfigs.front;
+    
+    // Calculate responsive dimensions
+    const width = Math.min(
+        Math.max((canvasWidth * config.widthPercent) / 100, 150),
+        275
+    );
+    const height = Math.min(
+        Math.max((canvasHeight * config.heightPercent) / 100, 180),
+        350
+    );
+    
+    // Calculate center-based positioning
+    const x = (canvasWidth * config.xOffsetPercent) / 100 - width / 2;
+    const y = (canvasHeight * config.yOffsetPercent) / 100 - height / 2;
+    
+    return {
+        x: Math.max(0, x),
+        y: Math.max(0, y),
+        width: width,
+        height: height
+    };
+};
+
+// Update the addCustomizationBoundary method
+TShirtDesigner.prototype.addCustomizationBoundary = function() {
+    const canvas = document.getElementById('tshirtCanvas');
+    if (!canvas) return;
+    
+    // Remove existing boundary
+    const existingBoundary = canvas.querySelector('.customization-boundary');
+    if (existingBoundary) {
+        existingBoundary.remove();
+    }
+    
+    const bounds = this.getResponsiveCustomizationBounds(this.currentView);
+    
+    const boundary = document.createElement('div');
+    boundary.className = 'customization-boundary';
+    boundary.dataset.view = this.currentView;
+    
+    // Use CSS positioning instead of inline styles for responsiveness
+    Object.assign(boundary.style, {
+        position: 'absolute',
+        border: '2px dashed #3b82f6',
+        backgroundColor: 'rgba(59, 130, 246, 0.05)',
+        pointerEvents: 'none',
+        zIndex: '5',
+        borderRadius: '8px',
+        // Let CSS handle the positioning
+        left: '50%',
+        top: '50%',
+        transform: 'translate(-50%, -50%)'
+    });
+    
+    const label = document.createElement('div');
+    label.textContent = this.currentView === 'front' ? 'Design Area' :
+                        this.currentView === 'side'  ? 'Sleeve'      : 'Back Print';
+    Object.assign(label.style, {
+        position: 'absolute',
+        top: '-25px',
+        left: '0',
+        fontSize: '12px',
+        color: '#3b82f6',
+        backgroundColor: 'white',
+        padding: '2px 6px',
+        borderRadius: '4px',
+        border: '1px solid #3b82f6',
+        whiteSpace: 'nowrap'
+    });
+    
+    boundary.appendChild(label);
+    canvas.appendChild(boundary);
+    
+    // Update the internal bounds for dragging calculations
+    this.customizationBounds = this.customizationBounds || {};
+    this.customizationBounds[this.currentView] = bounds;
+};
+
+// Update the _getBoundaryRect method to work with responsive boundaries
+TShirtDesigner.prototype._getBoundaryRect = function() {
+    const canvas = document.getElementById('tshirtCanvas');
+    if (!canvas) return null;
+    
+    const boundaryEl = canvas.querySelector('.customization-boundary');
+    if (boundaryEl) {
+        return boundaryEl.getBoundingClientRect();
+    }
+    
+    // Fallback: compute from responsive bounds
+    const canvasRect = canvas.getBoundingClientRect();
+    const bounds = this.getResponsiveCustomizationBounds(this.currentView);
+    
+    return new DOMRect(
+        canvasRect.left + bounds.x, 
+        canvasRect.top + bounds.y, 
+        bounds.width, 
+        bounds.height
+    );
+};
+
+// Update element positioning to use responsive boundaries
+TShirtDesigner.prototype.addImageElement = function(src) {
+    const canvas = document.getElementById('tshirtCanvas');
+    if (!canvas) return;
+    const bounds = this.getResponsiveCustomizationBounds(this.currentView);
+
+    const img = document.createElement('img');
+    const container = document.createElement('div');
+
+    container.className = 'draggable';
+    Object.assign(container.style, {
+        position: 'absolute',
+        left: (bounds.x + 20) + 'px',
+        top: (bounds.y + 20) + 'px',
+        zIndex: '10',
+        touchAction: 'none',
+        transform: 'rotate(0deg)'
+    });
+    
+    container.dataset.rot = '0';
+    container.dataset.flipH = '0';
+    container.dataset.flipV = '0';
+
+    img.src = src;
+    img.style.maxWidth = 'none';
+    img.style.maxHeight = 'none';
+    img.style.width = '120px';
+    img.style.height = 'auto';
+    img.style.pointerEvents = 'none';
+
+    container.appendChild(img);
+    canvas.appendChild(container);
+
+    this.elements[this.currentView].push(container);
+    this.makeDraggable(container);
+
+    document.querySelectorAll('.draggable').forEach(el => el.classList.remove('selected'));
+    container.classList.add('selected');
+    this.onElementSelected(container);
+
+    this._fitAndClamp(container);
+};
+
+// Update text element positioning
+TShirtDesigner.prototype.addTextElement = function() {
+    if (this.textEditor) {
+        this.textEditor.addOrUpdateText();
+        return;
+    }
+
+    const textInput = document.getElementById('textInput');
+    const fontSize = document.getElementById('fontSize');
+    const textColor = document.getElementById('textColor');
+    if (!textInput || !fontSize || !textColor) return;
+    if (!textInput.value.trim()) { alert('Please enter some text'); return; }
+
+    const canvas = document.getElementById('tshirtCanvas');
+    if (!canvas) return;
+    const bounds = this.getResponsiveCustomizationBounds(this.currentView);
+    const textElement = document.createElement('div');
+
+    textElement.className = 'draggable text-element';
+    Object.assign(textElement.style, {
+        position: 'absolute',
+        left: (bounds.x + 20) + 'px',
+        top: (bounds.y + 50) + 'px',
+        fontSize: (fontSize.value || 24) + 'px',
+        color: textColor.value || '#000000',
+        cursor: 'move',
+        userSelect: 'none',
+        zIndex: '10',
+        touchAction: 'none'
+    });
+    textElement.textContent = textInput.value;
+
+    canvas.appendChild(textElement);
+    this.elements[this.currentView].push(textElement);
+    this.makeDraggable(textElement);
+
+    if (this.textEditor) this.textEditor.makeTextEditable(textElement);
+
+    textInput.value = '';
+};
+
+// Update the createNewTextElement method in TextEditor if it exists
+if (window.TextEditor) {
+    const originalCreateNewTextElement = window.TextEditor.prototype.createNewTextElement;
+    
+    window.TextEditor.prototype.createNewTextElement = function(text) {
+        const canvas = document.getElementById('tshirtCanvas');
+        if (!canvas) return;
+
+        const bounds = this.designer.getResponsiveCustomizationBounds(this.designer.currentView);
+        const textElement = document.createElement('div');
+
+        textElement.className = 'draggable text-element';
+        Object.assign(textElement.style, {
+            position: 'absolute',
+            left: (bounds.x + 20) + 'px',
+            top: (bounds.y + 50) + 'px',
+            cursor: 'move',
+            userSelect: 'none',
+            zIndex: '10',
+            touchAction: 'none',
+            WebkitTextStroke: '0px transparent',
+            textStroke: '0px transparent'
+        });
+
+        textElement.dataset.rawText = text;
+        this.applyTextStyles(textElement);
+
+        canvas.appendChild(textElement);
+        this.designer.elements[this.designer.currentView].push(textElement);
+        this.designer.makeDraggable(textElement);
+
+        this.makeTextEditable(textElement);
+    };
+}
+
+// Add window resize handler for boundary updates
+window.addEventListener('resize', function() {
+    if (window.tshirtDesigner) {
+        // Debounce resize events
+        clearTimeout(window.tshirtDesigner.resizeTimeout);
+        window.tshirtDesigner.resizeTimeout = setTimeout(() => {
+            // Update boundary positioning
+            window.tshirtDesigner.addCustomizationBoundary();
+            
+            // Ensure all elements are still within bounds
+            Object.values(window.tshirtDesigner.elements).flat().forEach(element => {
+                window.tshirtDesigner._fitAndClamp(element);
+            });
+        }, 250);
+    }
+});
+
+// Add orientation change handler
+window.addEventListener('orientationchange', function() {
+    setTimeout(() => {
+        if (window.tshirtDesigner) {
+            window.tshirtDesigner.addCustomizationBoundary();
+            
+            Object.values(window.tshirtDesigner.elements).flat().forEach(element => {
+                window.tshirtDesigner._fitAndClamp(element);
+            });
+        }
+    }, 100);
+});
+
+// Override the selectProduct method to ensure responsive boundaries
+const originalSelectProduct = TShirtDesigner.prototype.selectProduct;
+TShirtDesigner.prototype.selectProduct = function(productType) {
+    originalSelectProduct.call(this, productType);
+    
+    // Ensure responsive boundaries are applied
+    setTimeout(() => {
+        this.addCustomizationBoundary();
+    }, 100);
+};
+
+// Override the switchView method to ensure responsive boundaries
+const originalSwitchView = TShirtDesigner.prototype.switchView;
+TShirtDesigner.prototype.switchView = function(view) {
+    originalSwitchView.call(this, view);
+    
+    // Ensure responsive boundaries are applied
+    setTimeout(() => {
+        this.addCustomizationBoundary();
+    }, 50);
+};

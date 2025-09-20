@@ -257,7 +257,7 @@ body {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     gap: 0.3rem;
-    max-height: 300px;
+    max-height: 425px;
     overflow-y: auto;
 }
 
