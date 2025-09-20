@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Custom T-Shirt Designer</title>
-    <link rel="stylesheet" href="override.css">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="text-editor.css">
-    <link rel="stylesheet" href="mobile-responsive.css">
+    <link rel="stylesheet" href="/CSS/override.css">
+    <link rel="stylesheet" href="/CSS/styles.css">
+    <link rel="stylesheet" href="/CSS/text-editor.css">
+    <link rel="stylesheet" href="/CSS/mobile-responsive.css">
 </head>
 <body>
     <!-- Product Selection Page -->
@@ -72,6 +72,7 @@
 
                 <!-- Upload Panel -->
                 <div id="uploadPanel" class="panel">
+                    <button type="button" class="panel-close" aria-label="Close" data-panel="#uploadPanel">×</button>
                     <h4>Upload Your Design</h4>
                     <div class="upload-area">
                         <input type="file" id="logoUpload" accept="image/*" style="display: none;">
@@ -90,6 +91,7 @@
 
                 <!-- Colors Panel -->
                 <div id="colorsPanel" class="panel">
+                    <button type="button" class="panel-close" aria-label="Close" data-panel="#colorsPanel">×</button>
                     <h4>Product Colors</h4>
                     <div class="color-grid">
                         <div class="color-option" data-color="#f4c2c2" style="background-color: #f4c2c2;"></div>

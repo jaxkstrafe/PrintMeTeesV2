@@ -118,9 +118,9 @@ class TShirtDesigner {
                 back: '/Products/tshirtback.png',
             },
             longsleeve: {
-                front: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjUwMCIgdmlld0JveD0iMCAwIDQwMCA1MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PC9zdmc+',
+                front: '/Products/longsleeveTshirtFront.png',
                 side:  'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjUwMCIgdmlld0JveD0iMCAwIDQwMCA1MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PC9zdmc+',
-                back:  'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjUwMCIgdmlld0JveD0iMCAwIDQwMCA1MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PC9zdmc+'
+                back:  '/Products/longsleeveTshirtBack.png'
             },
             polo: {
                 front: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjUwMCIgdmlld0JveD0iMCAwIDQwMCA1MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PC9zdmc+',
@@ -1563,6 +1563,8 @@ class TShirtDesigner {
             }
         });
     }
+
+    
 }
 
 // Shopify integration helpers
@@ -1666,3 +1668,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }, 150);
 });
+
+function attachPanelClosers(){
+  document.querySelectorAll('.panel .panel-close[data-panel]').forEach(btn => {
+    const sel = btn.getAttribute('data-panel');
+    btn.addEventListener('click', () => {
+      document.querySelector(sel)?.classList.remove('active');
+    });
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    const openPanels = Array.from(document.querySelectorAll('.panel.active'))
+      .filter(p => p.offsetParent !== null);
+    const top = openPanels[openPanels.length - 1];
+    if (top) top.classList.remove('active');
+  });
+}
+
+window.addEventListener('DOMContentLoaded', attachPanelClosers);

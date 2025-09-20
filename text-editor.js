@@ -30,76 +30,80 @@ class TextEditor {
         if (!textPanel) return;
 
         textPanel.innerHTML = `
+            <button type="button" class="panel-close" aria-label="Close" data-panel="#textPanel">×</button>
             <h4>Text Editor</h4>
             <div class="text-editor-content">
-                <div class="text-input-section">
-                    <textarea id="textInput" placeholder="Enter your text" rows="3"></textarea>
+            <div class="text-input-section">
+                <textarea id="textInput" placeholder="Enter your text" rows="3"></textarea>
+            </div>
+
+            <div class="text-controls-grid">
+                <div class="control-group">
+                <label>Font:</label>
+                <select id="fontFamily">
+                    ${this.fonts.map(font => `<option value="${font}">${font}</option>`).join('')}
+                </select>
                 </div>
 
-                <div class="text-controls-grid">
-                    <div class="control-group">
-                        <label>Font:</label>
-                        <select id="fontFamily">
-                            ${this.fonts.map(font => `<option value="${font}">${font}</option>`).join('')}
-                        </select>
-                    </div>
-
-                    <div class="control-group">
-                        <label>Size:</label>
-                        <div class="size-control">
-                            <input type="range" id="fontSize" min="8" max="120" value="24">
-                            <span id="fontSizeDisplay">24px</span>
-                        </div>
-                    </div>
-
-                    <div class="control-group">
-                        <label>Color:</label>
-                        <input type="color" id="textColor" value="#000000">
-                    </div>
-
-                    <div class="control-group">
-                        <label>Rotation:</label>
-                        <div class="rotation-control">
-                            <input type="range" id="textRotation" min="-180" max="180" value="0">
-                            <span id="rotationDisplay">0°</span>
-                        </div>
-                    </div>
-
-                    <div class="control-group">
-                        <label>Curve:</label>
-                        <div class="curve-control">
-                            <input type="range" id="textCurve" min="-100" max="100" value="0">
-                            <span id="curveDisplay">0%</span>
-                        </div>
-                    </div>
-
-                    <div class="control-group">
-                        <label>Outline:</label>
-                        <div class="outline-controls">
-                            <input type="checkbox" id="textOutline">
-                            <input type="color" id="outlineColor" value="#ffffff">
-                            <input type="range" id="outlineWidth" min="0" max="5" value="1" step="0.5">
-                        </div>
-                    </div>
-
-                    <div class="control-group">
-                        <label>Effects:</label>
-                        <div class="effect-buttons">
-                            <button type="button" id="boldToggle" class="effect-btn">B</button>
-                            <button type="button" id="italicToggle" class="effect-btn">I</button>
-                            <button type="button" id="underlineToggle" class="effect-btn">U</button>
-                        </div>
-                    </div>
+                <div class="control-group">
+                <label>Size:</label>
+                <div class="size-control">
+                    <input type="range" id="fontSize" min="8" max="120" value="24">
+                    <span id="fontSizeDisplay">24px</span>
+                </div>
                 </div>
 
-                <div class="text-editor-actions">
-                    <button id="addText" class="primary-btn">Add Text</button>
-                    <button id="updateText" class="primary-btn" style="display:none;">Update Text</button>
-                    <button id="duplicateText" class="secondary-btn" style="display:none;">Duplicate</button>
-                    <button id="cancelEdit" class="secondary-btn" style="display:none;">Cancel</button>
+                <div class="control-group">
+                <label>Color:</label>
+                <input type="color" id="textColor" value="#000000">
+                </div>
+
+                <div class="control-group">
+                <label>Rotation:</label>
+                <div class="rotation-control">
+                    <input type="range" id="textRotation" min="-180" max="180" value="0">
+                    <span id="rotationDisplay">0°</span>
+                </div>
+                </div>
+
+                <div class="control-group">
+                <label>Curve:</label>
+                <div class="curve-control">
+                    <input type="range" id="textCurve" min="-100" max="100" value="0">
+                    <span id="curveDisplay">0%</span>
+                </div>
+                </div>
+
+                <div class="control-group">
+                <label>Outline:</label>
+                <div class="outline-controls">
+                    <input type="checkbox" id="textOutline">
+                    <input type="color" id="outlineColor" value="#ffffff">
+                    <input type="range" id="outlineWidth" min="0" max="5" value="1" step="0.5">
+                </div>
+                </div>
+
+                <div class="control-group">
+                <label>Effects:</label>
+                <div class="effect-buttons">
+                    <button type="button" id="boldToggle" class="effect-btn">B</button>
+                    <button type="button" id="italicToggle" class="effect-btn">I</button>
+                    <button type="button" id="underlineToggle" class="effect-btn">U</button>
+                </div>
                 </div>
             </div>
+
+            <div class="text-editor-actions">
+                <button id="addText" class="primary-btn">Add Text</button>
+                <button id="updateText" class="primary-btn" style="display:none;">Update Text</button>
+                <button id="duplicateText" class="secondary-btn" style="display:none;">Duplicate</button>
+                <button id="cancelEdit" class="secondary-btn" style="display:none;">Cancel</button>
+            </div>
+            </div>
         `;
+
+        // Optional: keep if you want immediate binding now; make attachPanelClosers idempotent.
+        window.attachPanelClosers?.();
     }
 
     bindEvents() {
