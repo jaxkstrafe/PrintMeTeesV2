@@ -200,6 +200,23 @@ class TShirtDesigner {
         document.getElementById('flipV')?.addEventListener('click', () => this.flipActiveImage(false, true));
     }
 
+    // Ensure a non-interactive company logo sits at the top-right of the mockup
+    ensureBrandLogo() {
+        const canvas = document.getElementById('tshirtCanvas');
+        if (!canvas) return;
+
+        let badge = canvas.querySelector('.tshirt-brand-logo');
+        if (!badge) {
+            badge = document.createElement('img');
+            badge.className = 'tshirt-brand-logo';
+            badge.src = 'logo.png';                 // <-- your logo file
+            badge.alt = 'Company logo';
+            badge.setAttribute('aria-hidden', 'true');
+            badge.draggable = false;
+            canvas.appendChild(badge);
+        }
+    }
+
     // ===== Masked color layer =====
     ensureColorLayer() {
         const canvas = document.getElementById('tshirtCanvas');
@@ -475,6 +492,9 @@ class TShirtDesigner {
 
         // Refresh view tab thumbnails
         this.updateViewTabs();
+
+        // NEW: keep brand logo present & on top
+        this.ensureBrandLogo();
     }
 
     addCustomizationBoundary() {
@@ -1005,9 +1025,11 @@ class TShirtDesigner {
             let shirtImg = null, fit = null;
             if (shirtSrc) {
                 shirtImg = await this._loadImage(shirtSrc);
-                fit = this._computeContainFit(shirtImg.naturalWidth || shirtImg.width,
-                                            shirtImg.naturalHeight || shirtImg.height,
-                                            cw, ch);
+                fit = this._computeContainFit(
+                    shirtImg.naturalWidth || shirtImg.width,
+                    shirtImg.naturalHeight || shirtImg.height,
+                    cw, ch
+                );
                 // draw base with ~0.8 opacity (matches your UI)
                 ctx.save();
                 ctx.globalAlpha = 0.8;
@@ -1047,13 +1069,29 @@ class TShirtDesigner {
                 }
             }
 
-            // 4) Download as PNG
+            // 4) OPTIONAL: draw brand logo into the export
+            try {
+                const brand = await this._loadImage('logo.png');
+                const margin = 12;
+                const logoW = Math.min(72, cw * 0.12);
+                const ratio = (brand.naturalHeight || brand.height) / (brand.naturalWidth || brand.width);
+                const logoH = logoW * ratio;
+
+                ctx.save();
+                ctx.globalAlpha = 0.95;
+                ctx.drawImage(brand, cw - margin - logoW, margin, logoW, logoH);
+                ctx.restore();
+            } catch (e) {
+                console.warn('Could not draw brand logo into export:', e);
+            }
+
+            // 5) Download as PNG
             const info = this.getProductInfo(this.currentProduct);
             const fnSafe = s => String(s || '').replace(/\s+/g, '-').replace(/[^-\w.]/g, '');
             const filename = `${fnSafe(info.name)}_${fnSafe(this.currentView)}_${fnSafe(this.currentColor?.name)}.png`;
 
             out.toBlob((blob) => {
-                if (!blob) return alert('Could not create image.');
+                if (!blob) return alert('Could not create image. If you used images from another site, CORS may block exporting. Upload files directly instead.');
                 const a = document.createElement('a');
                 a.href = URL.createObjectURL(blob);
                 a.download = filename;
@@ -1069,6 +1107,7 @@ class TShirtDesigner {
             alert('Could not create mockup. If you used images from another site, CORS may block exporting. Upload files directly instead.');
         }
     }
+
 
     // ---- Helpers for download ----
     _computeContainFit(iw, ih, cw, ch) {

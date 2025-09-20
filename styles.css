@@ -87,7 +87,7 @@ body {
 /* Designer Page */
 .designer-container {
     display: grid;
-    grid-template-columns: 600px 1fr 250px;
+    grid-template-columns: 700px 1fr 250px;
     height: 100vh;
     background: #f8fafc;
 }
@@ -616,5 +616,26 @@ body {
 
 .curve-control {
     display: none;
+}
+
+/* --- Brand badge in the mockup canvas --- */
+.tshirt-brand-logo {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: clamp(36px, 7vw, 72px);
+  height: auto;
+  z-index: 50;             /* above boundary & draggables */
+  pointer-events: none;    /* never blocks dragging */
+  opacity: 0.95;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,.25));
+}
+
+@media (max-width: 480px) {
+  .tshirt-brand-logo {
+    width: clamp(28px, 10vw, 48px);
+    top: 8px;
+    right: 8px;
+  }
 }
 

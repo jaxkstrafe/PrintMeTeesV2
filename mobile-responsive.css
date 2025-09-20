@@ -98,9 +98,9 @@
 /* --- Small tablets / large phones (481–768px) --- */
 @media (max-width: 768px) and (min-width: 481px) {
   .customization-boundary { width: 48% !important; height: 52% !important; }
-  .customization-boundary[data-view="front"] { top: 50% !important; }
-  .customization-boundary[data-view="side"]  { width: 24% !important; height: 26% !important; top: 37% !important; left: 57% !important; }
-  .customization-boundary[data-view="back"]  { height: 57% !important; top: 47% !important; }
+  .customization-boundary[data-view="front"] { top: 42% !important; }
+  .customization-boundary[data-view="side"]  { width: 24% !important; height: 26% !important; top: 30% !important; left: 57% !important; }
+  .customization-boundary[data-view="back"]  { height: 57% !important; top: 40% !important; }
   .customization-boundary > div { font-size: 11px !important; }
 }
 
