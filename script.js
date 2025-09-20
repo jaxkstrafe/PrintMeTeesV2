@@ -26,7 +26,7 @@ class TShirtDesigner {
             {name:'Aquatic', url:'https://cdn.ssactivewear.com/Images/ColorSwatch/35529_fm.jpg', hex: '#00a0b0'},
             {name:'Ash', url:'https://cdn.ssactivewear.com/Images/ColorSwatch/33678_fm.jpg', hex: '#c6c2b6'},
             {name:'Azalea', url:'https://cdn.ssactivewear.com/Images/ColorSwatch/33679_fm.jpg', hex: '#f17ba0'},
-            {name:'Berry', url:'https://cdn.ssactivewear.com/Images/ColorSwash/33680_fm.jpg', hex: '#a8226b'},
+            {name:'Berry', url:'https://cdn.ssactivewear.com/Images/ColorSwatch/33680_fm.jpg', hex: '#a8226b'},
             {name:'Blackberry', url:'https://cdn.ssactivewear.com/Images/ColorSwatch/33682_fm.jpg', hex: '#4c2c4a'},
             {name:'Blue Dusk', url:'https://cdn.ssactivewear.com/Images/ColorSwatch/35527_fm.jpg', hex: '#7bb3da'},
             {name:'Brown Savana', url:'https://cdn.ssactivewear.com/Images/ColorSwatch/33683_fm.jpg', hex: '#8b4513'},
@@ -1126,74 +1126,61 @@ class TShirtDesigner {
     }
 
     async _drawTextElementToCanvas(ctx, textEl) {
-        const content = textEl.textContent || '';
+        const content = (textEl.dataset.rawText || textEl.textContent || '').replace(/\n/g, ' ');
         if (!content) return;
 
-        // Styles
-        const size = parseFloat(textEl.style.fontSize) || 24;
+        const size   = parseFloat(textEl.style.fontSize) || 24;
         const family = (textEl.style.fontFamily || 'Arial').split(',')[0];
-        const color = textEl.style.color || '#000000';
+        const color  = textEl.style.color || '#000000';
         const weight = textEl.style.fontWeight || 'normal';
         const italic = (textEl.style.fontStyle || '') === 'italic';
         const underline = (textEl.style.textDecoration || '').includes('underline');
 
-        // Outline (webkitTextStroke like "1px #fff")
-        let strokeW = 0, strokeC = '#000';
-        const strokeStr = textEl.style.webkitTextStroke || '';
-        const m = strokeStr.match(/([\d.]+)px\s+(.+)/);
-        if (m) {
-            strokeW = parseFloat(m[1]) || 0;
-            strokeC = m[2].trim();
-        }
+        // Outline from dataset (set by TextEditor)
+        const outlineOn  = textEl.dataset.outlineOn === '1';
+        const outlineCol = textEl.dataset.outlineColor || '#ffffff';
+        const outlineW   = parseFloat(textEl.dataset.outlineWidth || '0');
 
-        // Transform: rotate(...) and optional skewY(...) from curve
+        // Rotation
         const tf = textEl.style.transform || '';
-        let rotDeg = 0, skewYDeg = 0;
         const rm = tf.match(/rotate\(([-\d.]+)deg\)/);
-        const sm = tf.match(/skewY\(([-\d.]+)deg\)/);
-        if (rm) rotDeg = parseFloat(rm[1]) || 0;
-        if (sm) skewYDeg = parseFloat(sm[1]) || 0;
+        const rotRad = (rm ? parseFloat(rm[1]) : 0) * Math.PI / 180;
 
         const x = parseFloat(textEl.style.left) || 0;
-        const y = parseFloat(textEl.style.top) || 0;
+        const y = parseFloat(textEl.style.top)  || 0;
+        const curve = parseFloat(textEl.dataset.curve || '0');
 
         ctx.save();
         ctx.font = `${italic ? 'italic ' : ''}${weight} ${size}px ${family}`;
         ctx.fillStyle = color;
         ctx.textAlign = 'center';
-        ctx.textBaseline = 'top';
+        ctx.textBaseline = 'middle';
 
-        // Measure block for centering rotation
-        const lines = String(content).split('\n');
-        const lineHeight = size * 1.2;
-        const widths = lines.map(l => ctx.measureText(l).width);
-        const blockW = Math.max(...widths, 0);
-        const blockH = lineHeight * lines.length;
+        if (curve === 0) {
+            // Straight text (multi-line supported)
+            const lines = String(content).split('\n');
+            const lineHeight = size * 1.2;
+            const widths = lines.map(l => ctx.measureText(l).width);
+            const blockW = Math.max(...widths, 0);
+            const blockH = lineHeight * lines.length;
 
-        ctx.translate(x + blockW / 2, y + blockH / 2);
+            ctx.translate(x + blockW / 2, y + blockH / 2);
+            if (rotRad) ctx.rotate(rotRad);
 
-        // Apply skewY (curve approximation) then rotate
-        if (skewYDeg) {
-            ctx.transform(1, Math.tan(skewYDeg * Math.PI / 180), 0, 1, 0, 0);
-        }
-        if (rotDeg) ctx.rotate(rotDeg * Math.PI / 180);
-
-        // Draw each line centered
-        let cy = -blockH / 2;
-        for (let i = 0; i < lines.length; i++) {
+            let cy = -blockH / 2 + lineHeight / 2;
+            for (let i = 0; i < lines.length; i++) {
             const line = lines[i];
-
-            if (strokeW > 0) {
-                ctx.lineWidth = strokeW;
-                ctx.strokeStyle = strokeC;
+            if (outlineOn && outlineW > 0) {
+                ctx.lineWidth = outlineW;
+                ctx.strokeStyle = outlineCol;
                 ctx.strokeText(line, 0, cy);
             }
             ctx.fillText(line, 0, cy);
 
-            // underline
+            // underline (straight only)
             if (underline) {
                 const w = widths[i];
-                const uy = cy + size + 2; // a bit below baseline
+                const uy = cy + size * 0.6;
                 ctx.beginPath();
                 ctx.moveTo(-w / 2, uy);
                 ctx.lineTo(w / 2, uy);
@@ -1202,9 +1189,52 @@ class TShirtDesigner {
                 ctx.stroke();
             }
             cy += lineHeight;
-        }
+            }
+            ctx.restore();
+            return;
+    }
 
+    // Curved text (per-char along arc)
+    const chars = [...content];
+    const widths = chars.map(ch => ctx.measureText(ch).width);
+    const totalWidth = widths.reduce((a,b)=>a+b, 0) || 1;
+
+    const totalArcDeg = (Math.max(-100, Math.min(100, curve)) / 100) * 120;
+    const totalArcRad = totalArcDeg * Math.PI / 180;
+    const minRadius   = size * 1.5;
+    const radius      = Math.max(minRadius, totalWidth / (Math.abs(totalArcRad) || 0.0001));
+    const upward      = totalArcDeg > 0 ? -1 : 1;
+    const boxH        = size * 2.5;
+
+    // center of the DOM container we simulate
+    const cx = x + totalWidth / 2;
+    const cy = y + boxH / 2;
+
+    ctx.translate(cx, cy);
+    if (rotRad) ctx.rotate(rotRad);
+
+    let acc = 0;
+    for (let i = 0; i < chars.length; i++) {
+        const ch = chars[i];
+        const cw = widths[i];
+        const tCenter = (acc + cw / 2) / totalWidth;
+        const theta = (-totalArcRad / 2) + (tCenter * totalArcRad);
+
+        ctx.save();
+        ctx.rotate(theta);
+        ctx.translate(0, upward * -radius);
+        if (outlineOn && outlineW > 0) {
+        ctx.lineWidth = outlineW;
+        ctx.strokeStyle = outlineCol;
+        ctx.strokeText(ch, 0, 0);
+        }
+        ctx.fillText(ch, 0, 0);
         ctx.restore();
+
+        acc += cw;
+    }
+
+    ctx.restore();
     }
 
     getPrice() {

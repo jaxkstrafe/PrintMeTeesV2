@@ -613,3 +613,8 @@ body {
     object-fit: contain;
     border-radius: 6px;
 }
+
+.curve-control {
+    display: none;
+}
+

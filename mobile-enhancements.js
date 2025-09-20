@@ -563,61 +563,19 @@ class MobileEnhancements {
         });
     }
 
+    // mobile-enhancements.js
     adjustCustomizationBoundariesForMobile() {
-        if (!this.isMobile) return;
-        
-        const canvas = document.getElementById('tshirtCanvas');
-        if (!canvas) return;
-        
-        const canvasRect = canvas.getBoundingClientRect();
-        const canvasWidth = canvasRect.width;
-        const canvasHeight = canvasRect.height;
-        
-        // Mobile-optimized boundary sizes - scaled down from desktop
-        const mobileBounds = {
-            front: { 
-                x: Math.round(canvasWidth * 0.25), 
-                y: Math.round(canvasHeight * 0.18), 
-                width: Math.round(canvasWidth * 0.5), 
-                height: Math.round(canvasHeight * 0.6) 
-            },
-            side: { 
-                x: Math.round(canvasWidth * 0.4), 
-                y: Math.round(canvasHeight * 0.15), 
-                width: Math.round(canvasWidth * 0.25), 
-                height: Math.round(canvasHeight * 0.4) 
-            },
-            back: { 
-                x: Math.round(canvasWidth * 0.25), 
-                y: Math.round(canvasHeight * 0.12), 
-                width: Math.round(canvasWidth * 0.5), 
-                height: Math.round(canvasHeight * 0.7) 
-            }
-        };
-        
-        // Update the designer's customization bounds for mobile
-        if (this.isMobile) {
-            this.designer.customizationBounds = mobileBounds;
-        }
-        
-        // Update existing boundary element if it exists
-        const boundary = canvas.querySelector('.customization-boundary');
-        if (boundary && this.designer.currentView) {
-            const bounds = mobileBounds[this.designer.currentView];
-            if (bounds) {
-                boundary.style.left = bounds.x + 'px';
-                boundary.style.top = bounds.y + 'px';
-                boundary.style.width = bounds.width + 'px';
-                boundary.style.height = bounds.height + 'px';
-                
-                // Update label text for mobile
-                const label = boundary.querySelector('div');
-                if (label) {
-                    label.textContent = this.getMobileBoundaryLabel(this.designer.currentView);
-                }
-            }
-        }
+        if (!this.designer) return;
+
+        // Rebuild centered, responsive boundary (sets data-view & updates internal bounds)
+        this.designer.addCustomizationBoundary();
+
+        // Re-clamp everything into the new box
+        Object.values(this.designer.elements).flat().forEach(el => {
+            this.designer._fitAndClamp(el);
+        });
     }
+
 
     getMobileBoundaryLabel(view) {
         const labels = {

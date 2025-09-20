@@ -346,11 +346,11 @@ class TextEditor {
         textElement.dataset.rawText = raw;
 
         if (curve === 0) {
-            // Straight text (simple)
             textElement.innerText = raw;
-        } else {
+            } else {
             this.renderCurvedText(textElement, raw, {
-                fontSize, fontFamily, isBold, isItalic, curve
+                fontSize, fontFamily, isBold, isItalic, curve,
+                outlineOn, outlineColor, outlineWidth
             });
         }
     }
@@ -360,70 +360,63 @@ class TextEditor {
      * Curve range expected: -100..100 (we map to -120..120 degrees of total arc).
      */
     renderCurvedText(container, text, opts) {
-        const { fontSize, fontFamily, isBold, isItalic, curve } = opts;
+        const { fontSize, fontFamily, isBold, isItalic, curve, outlineOn, outlineColor, outlineWidth } = opts;
         const fontWeight = isBold ? 'bold' : 'normal';
         const fontStyle  = isItalic ? 'italic' : 'normal';
 
-        // Measure per-char widths with canvas (fast and layout-free)
+        // Measure
         this.measureCtx.font = `${fontStyle} ${fontWeight} ${fontSize}px ${fontFamily}`;
-        const chars = [...text];
+        const chars  = [...text];
         const widths = chars.map(ch => this.measureCtx.measureText(ch).width);
         const totalWidth = widths.reduce((a,b)=>a+b, 0) || 1;
 
-        // Map curve to arc
-        const totalArcDeg = (Math.max(-100, Math.min(100, curve)) / 100) * 120; // up to ±120°
+        // Arc geometry
+        const totalArcDeg = (Math.max(-100, Math.min(100, curve)) / 100) * 120; // ±120°
         const totalArcRad = totalArcDeg * Math.PI / 180;
+        const minRadius   = fontSize * 1.5;
+        const radius      = Math.max(minRadius, totalWidth / (Math.abs(totalArcRad) || 0.0001));
+        const upward      = totalArcDeg > 0 ? -1 : 1;
 
-        // radius derived from chord length vs arc angle; clamp minimum to avoid extreme bends
-        const minRadius = fontSize * 1.5;
-        const radius = Math.max(minRadius, totalWidth / (Math.abs(totalArcRad) || 0.0001));
-
-        // setup container for absolute-positioned glyph spans
+        // Container box (don’t rely on clientHeight before in-DOM)
+        const boxH = Math.ceil(fontSize * 2.5);
         container.innerHTML = '';
         container.style.position = 'absolute';
-        container.style.display = 'block';
-        container.style.height = Math.ceil(fontSize * 2.5) + 'px';
-        container.style.width = Math.ceil(totalWidth) + 'px';
-
+        container.style.display  = 'block';
         container.style.lineHeight = '1';
         container.style.whiteSpace = 'nowrap';
+        container.style.width  = Math.ceil(totalWidth) + 'px';
+        container.style.height = boxH + 'px';
+        container.style.transformOrigin = 'center center';
 
-        container.style.transformOrigin = 'center center'; // rotation happens around center
-        container.style.pointerEvents = 'auto';
-
-        const upward = totalArcDeg > 0 ? -1 : 1; // negative y moves up on screen
-
-        // We center around the middle of the text width
-        let cumulative = 0;
+        let acc = 0;
         for (let i = 0; i < chars.length; i++) {
             const ch = chars[i];
             const cw = widths[i];
 
-            // character center progress along the string (0..1)
-            const tCenter = (cumulative + cw / 2) / totalWidth;
-            const theta = (-totalArcRad / 2) + (tCenter * totalArcRad); // -halfArc .. +halfArc
+            const tCenter = (acc + cw / 2) / totalWidth;              // 0..1
+            const theta   = (-totalArcRad / 2) + (tCenter * totalArcRad);
 
             const span = document.createElement('span');
-            span.textContent = ch === ' ' ? '\u00A0' : ch; // keep spaces
+            span.textContent = ch === ' ' ? '\u00A0' : ch;            // preserve spaces
             span.style.position = 'absolute';
-            span.style.display = 'inline-block';
-            span.style.font = `${fontStyle} ${fontWeight} ${fontSize}px ${fontFamily}`;
-            span.style.transformOrigin = 'center center';
+            span.style.display  = 'inline-block';
+            span.style.font     = `${fontStyle} ${fontWeight} ${fontSize}px ${fontFamily}`;
             span.style.left = (totalWidth / 2) + 'px';
-            span.style.top = (container.clientHeight / 2) + 'px';
+            span.style.top  = (boxH / 2) + 'px';
+            span.style.transformOrigin = 'center center';
 
-            // Place each glyph on the circle and orient upright
-            // Translate to circle center, rotate by theta, then move back down/up by radius,
-            // and finally counter-rotate so glyph sits upright.
+            // Outline per glyph (webkitTextStroke isn’t inherited)
+            if (outlineOn && outlineWidth > 0) {
+            span.style.webkitTextStroke = `${outlineWidth}px ${outlineColor}`;
+            span.style.textStroke       = `${outlineWidth}px ${outlineColor}`;
+            }
+
+            // Correct transform order: center -> rotate to angle -> move to circle -> un-rotate
             span.style.transform =
-                `translate(-50%, -50%)
-                 translate(0px, ${upward * -radius}px)
-                 rotate(${theta}rad)
-                 translate(0, ${upward * radius}px)
-                 rotate(${-theta}rad)`;
+            `translate(-50%, -50%) rotate(${theta}rad) translate(0, ${upward * -radius}px) rotate(${-theta}rad)`;
 
             container.appendChild(span);
-            cumulative += cw;
+            acc += cw;
         }
     }
 
